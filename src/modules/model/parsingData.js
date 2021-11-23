@@ -1,17 +1,41 @@
-import {emptyDataTemplate} from './App'
+import { emptyDataTemplate } from './app';
 
 
 function getDateString(unixTime, time=true) {
-    let date = new Date(unixTime * 1000);
-    return time ? date.toTimeString().substr(0, 8) 
+    const date = new Date(unixTime * 1000),
+    toString =  time 
+    ? date.toTimeString().substr(0, 8) 
     : date.toDateString().substr(0, 4) + date.toDateString().substr(8, 3)
+
+    return toString
 };
   
 function parseData(data) {
     try {
-      const { timezone, lat, lon, current: { dt, temp, clouds, rain, wind_speed, humidity, weather: [{description}], sunrise, sunset }, daily } = data;
-      return { 
-        location: {'Timezone': timezone, 'Latitude': lat, 'Longditude': lon},
+      const { 
+        timezone, 
+        lat, 
+        lon, 
+        current: { 
+          dt, 
+          temp, 
+          clouds, 
+          rain, 
+          wind_speed, 
+          humidity, 
+          weather: [{description}], 
+          sunrise, 
+          sunset 
+        },
+        daily 
+      } = data,
+
+      parsedData = { 
+        location: {
+          'Timezone': timezone, 
+          'Latitude': lat, 
+          'Longditude': lon
+        },
         current: {
           'Date': getDateString(dt, false),
           'Time': getDateString(dt),
@@ -22,10 +46,11 @@ function parseData(data) {
           'Humidity': humidity + '%',
           'Description': description[0].toUpperCase() + description.slice(1),
           'Sunrise': getDateString(sunrise),
-          'Sunset': getDateString(sunset) },
+          'Sunset': getDateString(sunset) 
+        },
         daily: daily.map(day => {
-          const description = day.weather[0].description;
-          return {
+          const description = day.weather[0].description,
+          daysData = {
             'day': getDateString(day.dt, false),
             'Temperature': day.temp.day + ' \u00B0C',  
             'Clouds': day.clouds + '%',
@@ -35,30 +60,24 @@ function parseData(data) {
             'Description': description[0].toUpperCase() + description.slice(1),
             'Sunrise': getDateString(day.sunrise),
             'Sunset': getDateString(day.sunset)
-          } })           
+          };
+          return daysData
+        })           
       }; 
+
+      return parsedData
+      
     } catch (error) {
         if (error instanceof TypeError) {
           console.log('Some data associated with the searched city is missing:', error);
-        } else { console.log('An error occured in parseData():', error)};
+        } else { 
+          console.log('An error occured in parseData():', error)
+        };
     };
+
     return emptyDataTemplate
 };
 
-function convertTempData(data) {
-    const celsius = data.Temperature.split(' ')[0];
-    return {...data, 'Temperature': Math.round((celsius * (9/5) + 32) * 100) / 100 + ' \u00B0F'}
-}; 
-  
-function filterData(filters, data, daysIn=null) {
-    data = filters.tempUnit==='Fahrenheit' 
-    && (daysIn===null ? data.Temperature : data[0].Temperature)
-    ? ( daysIn && data.map(dayData => convertTempData(dayData)) ) || convertTempData(data) 
-    : data;
-    const headersIn = Object.keys(filters).filter(header => filters[header]===true);
-    return daysIn === null ? Object.fromEntries( headersIn.map(header => [header, data[header]]) )
-    : daysIn.map( day => Object.fromEntries( headersIn.map(header => [header, data[day][header]]) ))
-}; 
   
 
-export {getDateString, convertTempData, filterData, parseData}
+export { getDateString, parseData };
