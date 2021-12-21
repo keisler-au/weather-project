@@ -1,0 +1,15 @@
+table:nth-of-type(2) {
+    tr[class=time-row] {
+        th,
+        td {
+            font-weight: bold;
+            border-bottom: solid 2px black;
+        }
+    }
+    tr:first-child {
+        @include table-corners($h1:$corner, $d2:$corner);
+    }
+    tr:last-child {
+        @include table-corners($h4:$corner, $d3:$corner);
+    }
+}

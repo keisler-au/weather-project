@@ -1,0 +1,9 @@
+div[class=show-filters] > label {
+    @include flex-setup(column, 100%);
+    @include text-inputs(8rem, 12rem, 1.5rem);
+    @include adjust-flex-basis {
+        padding-right: 10%;
+        align-items: end;
+        text-indent: -8rem;
+    }
+}

@@ -1,0 +1,73 @@
+@mixin flex-setup(
+    $fd:initial,
+    $fb:auto,
+    $fw:initial,
+    $mv:auto,
+    $mh:auto
+) {
+    display: flex;
+    flex-direction: $fd;
+    flex-basis: $fb;
+    flex-wrap: $fw;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: $mv $mh;
+}
+@mixin more-less-label($mb:0, $bc:$container-color) {
+    padding: $vertical-space;
+    border-radius: $corner;
+    margin-top: $vertical-space;
+    margin-bottom: $mb;
+    background-color: $bc;
+}
+@mixin text-inputs($w, $mw, $h) {
+    input {
+        width: $w;
+        max-width: $mw;
+        height: $h;
+        padding: $vertical-space;
+        border: solid 1px black;
+        border-radius: $sharper-corner;
+        text-align: center;
+        background-color: $input-unselected;
+        @content;
+    }
+    input:focus,
+    .text-in-input {
+        background-color: $input-selected;
+        outline-style: none;
+    }
+}
+@mixin adjust-flex-basis($fb1:50%, $fb2:50%) {
+    @media (min-width: 600px) {
+        flex-basis: $fb1;
+        @content;
+    }
+    @media (min-width: 1000px) {
+        flex-basis: $fb2;
+    }
+}
+@mixin table-corners(
+    $h1:0, 
+    $h2:0, 
+    $h3:0, 
+    $h4:0,
+    $d1:0, 
+    $d2:0, 
+    $d3:0, 
+    $d4:0
+) {
+    th:first-child {
+        border-radius: $h1 $h2 $h3 $h4;
+    }
+    th:last-child {
+        border-radius: 0 $corner 0 0;
+    }
+    td:last-child {
+        border-radius: $d1 $d2 $d3 $d4;
+    }
+}
+
+
+

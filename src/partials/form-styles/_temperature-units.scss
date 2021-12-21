@@ -1,0 +1,26 @@
+div[class=show-filters] fieldset:first-of-type {
+    @include flex-setup($fb:100%, $mv:$vertical-space);
+    label {
+        height: 1.5rem;
+        line-height: 1.5rem;
+        width: 6rem;
+        border: solid 1px black;
+        background-color: $input-unselected;
+        &[class=input-selected] {
+            background-color: $input-selected;
+        }
+        &:first-of-type {
+            border-right: none;
+        }
+    }
+    @include adjust-flex-basis {
+        padding-left: 10%;
+        justify-content: start;
+        text-align: start;
+        text-indent: 2rem;
+        label {
+            text-align: center;
+            text-indent: 0;
+        }
+    }
+}

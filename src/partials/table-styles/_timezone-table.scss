@@ -1,0 +1,8 @@
+table:first-of-type {
+    @include table-corners(
+        $h1:$corner, 
+        $h4:$corner, 
+        $d2:$corner, 
+        $d3:$corner
+    );
+}

@@ -1,0 +1,31 @@
+table:last-of-type {
+    align-self: flex-start;
+    margin: auto;
+    max-width: 70rem;
+    thead {
+        th {
+            border-bottom: solid 2px black;
+        }
+        @include table-corners($h1:$corner);
+    }
+    tbody {
+        th {
+            min-width: 9rem;
+        }
+        tr:last-child {
+            @include table-corners($h4:$corner, $d3:$corner);
+        }
+    }
+    tfoot {
+        position: relative;
+        td {
+            position: absolute;
+            right: 0;
+            width: unset;
+            margin: $vertical-space;
+            font-weight: bold;
+            background-color: transparent;
+        }
+
+    }
+}

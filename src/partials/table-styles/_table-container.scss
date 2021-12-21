@@ -1,0 +1,32 @@
+@import "./current-table";
+@import "./daily-table";
+@import "./timezone-table";
+
+#root > div {
+    @include flex-setup(column);
+    padding: .5rem;
+    label {
+        @include more-less-label(.5rem, $table-label);
+    }
+}
+
+table {
+    border-spacing: 0;
+    caption,
+    &[class=hide-table] {
+        display: none;
+    }
+    tr * {
+        width: 9rem;
+        text-align: center;
+        border-bottom: solid 1px black;
+        background-color: $table-color;
+        &:nth-child(even) {
+            background-color: $even-table-color;
+        }
+    }
+    tr:last-child * {
+        border-bottom: none;
+    }
+}
+

@@ -1,0 +1,6 @@
+form > label:first-child {
+    @include flex-setup(column, $mv:2.5rem);
+    @include text-inputs(20rem, 30rem, 3rem) {
+        font-size: 1.5rem;
+    }
+}
