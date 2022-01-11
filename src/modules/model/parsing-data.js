@@ -1,14 +1,28 @@
 import { emptyDataTemplate } from "../view/app";
-import { convertTempData } from "../controller/temperature-controls";
+
 
 function getDateString(unixTime, time=true) {
     const date = new Date(unixTime * 1000),
     string =  time 
     ? date.toTimeString().substring(0, 5) 
-    : date.toDateString().substring(0, 4) + date.toDateString().substring(8, 3)
+    : date.toDateString().substring(0, 4) + date.toDateString().substring(8, 11)
 
     return string
 };
+
+function convertTempData(data) {
+  const fahrenheit = document.querySelectorAll('[name=temp]')[1].checked,
+  oldTemp = data.Temperature,
+  newTemp = fahrenheit
+  ? Math.round(oldTemp * (9/5) + 32)
+  : Math.round((oldTemp - 32) * (5/9)),
+  convertedData = {
+      ...data, 
+      'Temperature': newTemp
+  };
+
+  return convertedData
+}; 
   
 function parseData(data) {
     try {
@@ -63,8 +77,8 @@ function parseData(data) {
 
       fahrenheit = document.querySelectorAll('[name=temp]')[1].checked;
       if (fahrenheit) {
-        parsedData.current = convertTempData(parsedData.current, fahrenheit);
-        parsedData.daily = parsedData.daily.map(dayData => convertTempData(dayData, fahrenheit));
+        parsedData.current = convertTempData(parsedData.current);
+        parsedData.daily = parsedData.daily.map(dayData => convertTempData(dayData));
       }
 
       return parsedData
@@ -80,6 +94,14 @@ function parseData(data) {
     return emptyDataTemplate
 };
 
-const exports = { getDateString, parseData };
+const exports = { 
+  getDateString, 
+  convertTempData,
+  parseData 
+};
 export default exports;
-export { getDateString, parseData };
+export { 
+  getDateString, 
+  convertTempData,
+  parseData 
+};

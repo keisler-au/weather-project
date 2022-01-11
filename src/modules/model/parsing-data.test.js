@@ -16,6 +16,17 @@ describe('getDateString()', () => {
     });
 });
 
+describe('convertTempData()', () => {
+    it('converts celsius temperature to fahhrenheit', () => {
+        const celsius = 0 + ' \u00B0C',
+        fahrenheit = 32 + ' \u00B0F',
+        data = { 'Temperature': celsius },
+        convertedData = convertTempData(data),
+        expectedData = { 'Temperature': fahrenheit };
+        expect(convertedData).toEqual(expectedData);
+    });
+});
+
 describe('parseData()', () => {
     const oneDaysData = {
         dt: 'mocked',
@@ -71,6 +82,10 @@ describe('parseData()', () => {
         };
         const parsedData = parseData(data);
         expect(parsedData).toEqual(expectedParsedData)
+    });
+    // !!
+    it('Calls convertTempData() when "fahrenheit" radio input is selected', () => {
+
     });
     
     it('Logs a specific error message when an invalid "data" input is provided, returns an empty parsed dataset template', () => {

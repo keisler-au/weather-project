@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 
 import { Context } from "./app";
-import { Inputs } from "../controller/input-template";
-  
+
 
 function DayHeaders() {
   const { data, daysIncluded } = useContext(Context);
@@ -64,7 +63,9 @@ function Tables() {
 
   const tables = tableInformation.map(([title, tableContent]) => (
     <React.Fragment key={title}>
-      <Inputs label={`${title}\u25BF`} handler={tableFilterButtons} />
+      <label>{`${title}\u25BF`}
+        <input type="checkbox" onChange={tableFilterButtons}/>
+      </label>
       <table>
         <caption>{title}</caption>
         {title==='8 Day Forecast' && <exports.DayHeaders />}

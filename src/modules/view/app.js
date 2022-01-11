@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
 import { filterData } from "../model/filtering-data";
-import { Inputs } from "../controller/input-template";
-import { LocationInput } from "../controller/location-controls";
+import LocationInput from "../controller/location-controls";
 import TemperatureAndTableFilters from "../controller/optional-controls";
 import { Tables } from "./table-components";
 
@@ -94,7 +93,9 @@ function App() {
       }>
         <form>
           <LocationInput location="City" />
-          <Inputs label={"Optional filters\u25BE"} handler={optionalFilterButton}/>
+          <label>{"Optional filters\u25BE"}
+            <input type="checkbox" onChange={optionalFilterButton} />
+          </label>
           <div>
             <LocationInput location="Country" />
             <TemperatureAndTableFilters />

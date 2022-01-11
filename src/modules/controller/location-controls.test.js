@@ -36,31 +36,31 @@ htmlToRender = locationInputs => {
 
 describe('<LocationInputs />', () => {
   let mockInputs;
-  it('Returns an array of values returned from two calls to <Inputs />', () => {
-    mockInputs = jest.spyOn(lCImports, 'Inputs').mockImplementation(() => 'foo');
+  it('Returns a <label> element', () => {
+    // mockInputs = jest.spyOn(lCImports, 'Inputs').mockImplementation(() => 'foo');
     const renderHtml = htmlToRender(<LocationInput />);
     act(() => { render(renderHtml, container) });
-    expect(container.innerHTML).toBe('foofoo');
+    expect(container.innerHTML).toBe('foo');
   });
 
-  it('Calls textDebounce() after "onChange" event', async () => {
+  it('Calls setTimeout callback function after 2000ms from last "onChange" event', async () => {
     jest.useFakeTimers();
     mockInputs.mockRestore()
     const renderHtml = htmlToRender(<LocationInput />);
     act(() => { render(renderHtml, container) });
 
-    const cityInput = container.querySelector('[name=City]');
+    const cityInput = container.querySelector('input');
     userEvent.type(cityInput, 'perth');
     expect(setData).toHaveBeenCalledTimes(0);
     jest.runTimersToTime();
     await Promise.resolve();
     expect(setData).toHaveBeenCalledTimes(1);
 
-    const countryInput = container.querySelector('[name=Country]');
-    userEvent.type(countryInput, 'au');
-    expect(setData).toHaveBeenCalledTimes(1);
-    jest.runTimersToTime();
-    await Promise.resolve();
-    expect(setData).toHaveBeenCalledTimes(2);
+    // const countryInput = container.querySelector('form > div > label:first-child > input');
+    // userEvent.type(countryInput, 'au');
+    // expect(setData).toHaveBeenCalledTimes(1);
+    // jest.runTimersToTime();
+    // await Promise.resolve();
+    // expect(setData).toHaveBeenCalledTimes(2);
   });
 });

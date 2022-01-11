@@ -1,35 +1,12 @@
 import React, { useContext } from "react";
 
 import { Context } from "../view/app";
+import { convertTempData } from "../model/parsing-data";
 import { filterData } from "../model/filtering-data";
-import { Inputs } from "./input-template";
-
 import { emptyDataTemplate } from "../view/app";
-// function convertTempData(data) {
-//     const celsius = data.Temperature,
-//     fahrenheit = Math.round(celsius * (9/5) + 32),
-//     convertedData = {
-//         ...data, 
-//         'Temperature': fahrenheit
-//     };
 
-//     return convertedData
-// }; 
 
-function convertTempData(data, fChecked) {
-
-    const oldTemp = data.Temperature,
-    newTemp = fChecked 
-    ? Math.round(oldTemp * (9/5) + 32)
-    : Math.round((oldTemp - 32) * (5/9)),
-    convertedData = {
-        ...data, 
-        'Temperature': newTemp
-    };
-
-    return convertedData
-}; 
-function Temperatures() {
+export default function Temperatures() {
     const {
         data, 
         daysIncluded, 
@@ -37,47 +14,38 @@ function Temperatures() {
         setFilteredData
     } = useContext(Context);
 
-    function changeTempUnit({ target: { checked, parentElement }}) {  
-        const fahrenheit = checked && parentElement.textContent === 'Fahrenheit',
-        availableData = JSON.stringify(data) !== JSON.stringify(emptyDataTemplate);
+    function changeTempUnit() {  
+        const availableData = JSON.stringify(data) !== JSON.stringify(emptyDataTemplate);
         if (availableData) {
-            data.current = convertTempData(data.current, fahrenheit);
-            data.daily = data.daily.map(dayData => convertTempData(dayData, fahrenheit));
+            data.current = convertTempData(data.current);
+            data.daily = data.daily.map(dayData => convertTempData(dayData));
         }
 
         setFilteredData(filterData(filteredCategories, data, daysIncluded));
     };
+
+    const previouslyRendered = document.querySelectorAll('[name=temp]'),
     
-    const tempInputs = ['Celsius', 'Fahrenheit'].map(unit => {
-        const units = document.querySelectorAll('[name=temp]'),
-        defaultCheck = unit === 'Celsius',
-        classNames = !units.length && defaultCheck 
-        ? 'input-selected' 
-        : units.length && defaultCheck && units[0].checked
-        ? 'input-selected'
-        : units.length && !defaultCheck && units[1].checked
-        ? 'input-selected'
-        : '',
+    tempInputs = ['Celsius', 'Fahrenheit'].map(unit => {
+        const unitIsCelsius = unit === 'Celsius',
+        className = (!previouslyRendered.length && unitIsCelsius)
+            || (previouslyRendered.length && unitIsCelsius && previouslyRendered[0].checked)
+            || (previouslyRendered.length && !unitIsCelsius && previouslyRendered[1].checked)
+            ? 'input-selected' : '',
+
         tempInput = 
-        <label 
-            key={unit} 
-            className={classNames}
-        >
-            {unit}
-            <input 
-                type="radio" 
-                name="temp"
-                onChange={changeTempUnit} 
-                defaultChecked={defaultCheck}
-            />
-        </label>;
+            <label key={unit} className={className}>
+                {unit}
+                <input 
+                    type="radio" 
+                    name="temp"
+                    onChange={changeTempUnit} 
+                    defaultChecked={unitIsCelsius}
+                />
+            </label>;
 
         return tempInput
     });
 
     return tempInputs
 };
-
-const exports = { convertTempData, Temperatures, Inputs };
-export default exports;
-export { convertTempData, Temperatures };

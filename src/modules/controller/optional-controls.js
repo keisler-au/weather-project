@@ -1,10 +1,9 @@
 import React from "react";
 
 import { emptyCategories } from "../view/app";
-import { Categories } from "./category-controls";
-import { Days } from "./day-controls";
-import { Temperatures } from "./temperature-controls";
-
+import { wholeWeek } from "../view/app";
+import TableFilters from "./table-filter-controls";
+import Temperatures from "./temperature-controls";
 
 
 export default function TemperatureAndTableFilters() {
@@ -16,15 +15,15 @@ export default function TemperatureAndTableFilters() {
     ],
     [
       '"Current Weather" Categories',
-      <Categories table="current" categories={['Date', 'Time', ...categories]} /> 
+      <TableFilters table="current" filterOptions={['Date', 'Time', ...categories]} /> 
     ],
     [
       '"8 Day Forecast" Categories', 
-      <Categories table="daily" categories={categories} /> 
+      <TableFilters table="daily" filterOptions={categories} /> 
     ],
     [
       'Days Shown', 
-      <Days />
+      <TableFilters table="daily" filterOptions={[...wholeWeek, 'deselect']}/>
     ]
   ],
   filterInputs = fieldsetsContent.map(([header, element]) => {
