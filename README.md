@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# Welcome to the 'Weather Project'! 
+The 'Weather Project' is an application I have designed to showcase some of the skills I have developed in key areas like HTML, CSS, and JavaScript. The application allows a user to search and retrieve a specified location's weather data, as well as interact with how that information is displayed on screen. 
+This project is a continued effort to learn and improve, so any and all feedback you may have would be greatly appreciated!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Table of Contents|
+-
+[Steps to running the application and tests](#run)|
+[How to interact with the application](#interact)|
+[App documentation](#docs)|
+[Technologies used](#tools)|
+[Developing the application](#build)|
+[Future intentions](#future)|
+[About me](#author)|
 
-## Available Scripts
+## <a name="run"></a>Steps to running the application and tests: 	
+1. Clone the repository into a local file
+2. Install the dependencies > *npm install*
+3. Run the application on a local host > *npm start*
+4. Run the application tests > *npm test*
 
-In the project directory, you can run:
+## <a name="interact"></a>How to interact with the application:
+**Search bars**
+There are two search bars that accept text input for specifying a location for weather data. For weather data to be retrieved the user is required to input into the 'City' search bar, while input into the 'Country' search bar is optional and allows for greater specificity. Both search bars automatically submit input after a 2 second wait from the last key press and do no require the user to enter or submit their input manually.
 
-### `npm start`
+**Optional filters**
+Clicking on the 'Optional filters' tab displays the optional filters that the user can use to interact with the tables below. Each beige coloured box ![alt](all-selected.png) is an interactive button that represents that item being selected, with off-white coloured boxes representing the item being deselected. For example, clicking on a category item in '"Current Weather" Categories' selects or deselects that category from the "Current Weather" table below ![alt](single-deselected.png)  Likewise, clicking on a day item in '8 Day Forecast" Days' selects or deselects that day from the "8 Day Forecast" table below. Finally, selecting the small button to the top left of each section selects or deselects all of the items for that section. ![alt](all-deselected)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**Table Buttons**
+Clicking on the tabs above each table hides or displays the table below. 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+**Tables**
+Weather data is displayed in all three tables once a user enters an input into the 'City' search bar. However, if the user's input is invalid (i.e., there is no matching location in the database), then no content in the tables are displayed. 
 
-### `npm test`
+**Responsive layout** 
+All the elements displayed respond proportionately to the browser window being shortened and widened.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## <a name="docs"></a>App documentation:
+(link to text file?)
 
-### `npm run build`
+## <a name="tools"></a>Technologies used:
+**React** - Contains both the logic and HTML implementation of the application.
+**Jest** - Used to unit test the logic within the various functions and components 
+**SASS** - Used to format more clean, DRY, reusable CSS.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## <a name="build"></a>Developing the application:
+**What I learnt** 
+I learnt a lot about JavaScript and React in developing this program. The 'debounce' implementation and testing local scoped functions gave me the opportunity to gain a more comprehensive understanding of closures and scope. Building the project with React also allowed me to learn about functional components and how to use React Hooks. Consistently refactoring my code also enabled me to explore some formatting conventions and discover more concise syntax shortcuts.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**What I enjoyed**
+I really enjoyed problem solving when building, and being able to practically learn more about the different technologies that I hadn't previously had much experience with. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**What I found difficult**
+I found the planning and testing phases particularly challenging. I had intended to follow a Test Driven Development (TDD) approach, where I would write the test first and the actual component second. However, maybe due to my inexperience with the technologies I wasn't able to configure a clear outline for most features of the application, or how to build them in a progressive way. As I didn't know what components to build I wasn't able to follow a TDD process, which I think resulted in a more time consuming and intensive development build period.
 
-### `npm run eject`
+**What I would like to improve next time**
+Next time when working with the same technologies I would like to have a more strategic foundation when building logic and features. One way I could do this is to follow the Model, View, Controller, design more thoroughly.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## <a name="future"></a>Future intentions:
+**Integration testing**
+Integration testing using the 'Cypress' framework is currently in developement to test that each user interaction causes the program to behave in the expected way.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Design**
+The current display design features 'hide element' features which can be disorientating to the user when element positioning drops in and out. A tab bar feature that contains a tab for each table could make the display more slim line and easier for the user to focus on only one element at a time. This would also feed into the 'Optional filters' where each section could be isolate towards its table and not lumped together. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**Sort feature**
+Another feature that could be added to further develop the program is a sorting function where the table data could be sorted by ascending or descending values.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## <a name="author"></a>About me:
+[Josh Keisler | LinkedIn](https://www.linkedin.com/in/josh-keisler-93b070a1/)
+(link to CV)

@@ -41,7 +41,7 @@ function FilterFieldsets() {
       <TableFilters table="daily" filterOptions={categories} />
     ],
     [
-      'Days Shown', 
+      '"8 Day Forecast" Days', 
       <TableFilters table="daily" filterOptions={[...wholeWeek, "deselectAll"]}/>
     ]
   ],

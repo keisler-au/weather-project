@@ -19,9 +19,9 @@ body {
     background-color: $input-unselected;
 }
 
-// input:not([type=text]){ 
-//     display: none;  
-// }  
+input:not([type=text]){ 
+    display: none;  
+}  
 
 form {
     @include flex-setup(column);

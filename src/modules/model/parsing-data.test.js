@@ -1,5 +1,5 @@
 import { getDateString, convertTempData, parseData } from "./parsing-data";
-import { emptyDataTemplate } from "../view/app";
+import { emptyDataTemplate } from "../view/template-variables";
 
 
 describe('getDateString()', () => {
