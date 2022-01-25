@@ -1,0 +1,3 @@
+The "app.js" module contains the main "App" component that combines the other 'unit' components. "FilterFieldsets" returns an array of <div> nodes and React components, isolating logic that would otherwise by in "App" and thus making it more readable. "ErrorBoundary" is a class that renders a custom error message when an error is caught in one of it's child components. 
+
+It would seem redundant to test "App" as the other components it renders have their own set of unit tests. "App" is currently in the process of being integration tested using the 'Cypress' testing framework. This testing suite would test that user interactions and the resulting communication between components would behave as is expected. 

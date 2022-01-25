@@ -5,7 +5,7 @@ import { render } from "react-dom";
 import userEvent from "@testing-library/user-event";
 
 import { Context } from "../view/app";
-import lCImports, { LocationInput }  from "./location-controls";
+import LocationFilter  from "./location-controls";
 
 
 let container = document.createElement("div");
@@ -18,49 +18,44 @@ jest.mock('../model/parsing-data', () => ({ parseData: jest.fn() }));
 const setData = jest.fn(),
 daysIncluded = null,
 headerStatus = { 'current': null, 'daily': null },
-setFilteredData = jest.fn(),
-htmlToRender = locationInputs => {
-  return (
-    <Context.Provider value={
-      {
-        setData, 
-        daysIncluded, 
-        headerStatus, 
-        setFilteredData
-      }
-    }>
-      {locationInputs}
-    </Context.Provider>
-  )
-};
+setFilteredData = jest.fn();
+
+const addContext = location => (
+  <Context.Provider value={
+    {
+      setData, 
+      daysIncluded, 
+      headerStatus, 
+      setFilteredData
+    }
+  }>
+    <LocationFilter location={location} />
+  </Context.Provider>
+);
 
 describe('<LocationInputs />', () => {
-  let mockInputs;
   it('Returns a <label> element', () => {
-    // mockInputs = jest.spyOn(lCImports, 'Inputs').mockImplementation(() => 'foo');
-    const renderHtml = htmlToRender(<LocationInput />);
-    act(() => { render(renderHtml, container) });
-    expect(container.innerHTML).toBe('foo');
+    const componentToRender = addContext('City');
+    act(() => { render(componentToRender, container) });
+    expect(container.innerHTML).toBe('<label>City<input type="text" id="city"></label>');
   });
 
   it('Calls setTimeout callback function after 2000ms from last "onChange" event', async () => {
     jest.useFakeTimers();
-    mockInputs.mockRestore()
-    const renderHtml = htmlToRender(<LocationInput />);
-    act(() => { render(renderHtml, container) });
+    const componentToRender = addContext('Country');
+    act(() => { render(componentToRender, container) });
 
-    const cityInput = container.querySelector('input');
-    userEvent.type(cityInput, 'perth');
+    const textInput = container.querySelector('input');
+    userEvent.type(textInput, 'perth');
     expect(setData).toHaveBeenCalledTimes(0);
     jest.runTimersToTime();
     await Promise.resolve();
     expect(setData).toHaveBeenCalledTimes(1);
 
-    // const countryInput = container.querySelector('form > div > label:first-child > input');
-    // userEvent.type(countryInput, 'au');
-    // expect(setData).toHaveBeenCalledTimes(1);
-    // jest.runTimersToTime();
-    // await Promise.resolve();
-    // expect(setData).toHaveBeenCalledTimes(2);
+    userEvent.type(textInput, 'au');
+    expect(setData).toHaveBeenCalledTimes(1);
+    jest.runTimersToTime();
+    await Promise.resolve();
+    expect(setData).toHaveBeenCalledTimes(2);
   });
 });

@@ -1,82 +1,115 @@
-import fDImports, { convertTempData, filterData } from "./FilteringData";
+import { addCategoryMetric, filterData } from "./filtering-data";
 
 
 describe('addCategoryMetric()', () => {
     it('Adds fahrenheit metric to "Temperature" category', () => {
-
+        document.body.innerHTML = '<input id="fahrenheit" name="temp" checked/>';
+        expect(addCategoryMetric('Temperature')).toBe('Temperature (\u00B0F)');
     });
     it('Adds celsius metric to "Temperature" category', () => {
-
+        document.body.innerHTML = '<input id="fahrenheit" name="temp"/>';
+        expect(addCategoryMetric('Temperature')).toBe('Temperature (\u00B0C)')
     });
     it('Adds (%) metric to "Clouds" category', () => {
-
+        expect(addCategoryMetric('Clouds')).toBe('Clouds (%)')
     });
     it('Adds (%) metric to "Humidity" category', () => {
-
+        expect(addCategoryMetric('Humidity')).toBe('Humidity (%)')
     });
     it('Adds (kn) metric to "Wind" category', () => {
-
+        expect(addCategoryMetric('Wind')).toBe('Wind (kn)')
     });
     it('Adds (mm) metric to "Rain" category', () => {
-
+        expect(addCategoryMetric('Rain')).toBe('Rain (mm)')
     });
     it('No metric added to category', () => {
-
+        expect(addCategoryMetric('Description')).toBe('Description')
     });
 });
 
-describe('filterData()', () => {
-    let headerStatus = { 
-        'tempUnit': 'Celsius',
-        'Temperature': true, 
-        'Clouds': true, 
-        'Rain': false 
-    },
+
+describe('filterData() returns an object, the keys are all the categories in "filteredCategories" set to "true" (plus additional unit metrics), and the values for each key correspond to the information in "data" and "daysIncluded"', () => {
+    let filteredData, 
+    filteredCategories,
+    expectedData,
     data = { 
-        'Temperature': 0 + ' \u00B0C',
-        'Clouds': 50 + '%',
-        'Rain': 100 + 'mm'
+        'current': {
+            'Temperature': 0, 
+            'Clouds': 50, 
+            'Humidity': 100 
+        },
+        'daily': [ 
+            {
+                'Wind': 150, 
+                'Rain': 200, 
+                'Description': 250
+            },
+            {
+                'Wind': 300, 
+                'Rain': 350, 
+                'Description': 400
+            },
+            {
+                'Wind': 450, 
+                'Rain': 500, 
+                'Description': 550
+            }
+        ]
     },
-    expectedData = { 
-        'Temperature': 0 + ' \u00B0C',
-        'Clouds': 50 + '%',
-     };
+    daysIncluded = [0, 1, 2];
+    beforeEach(() => {
+        filteredCategories = { 
+             'current': {
+                'Temperature': true, 
+                'Clouds': true, 
+                'Humidity': true 
+            },
+            'daily': {
+                'Wind': true, 
+                'Rain': true, 
+                'Description': true,
+            }
+        },
+        expectedData = { 
+            'current': {
+                'Temperature (\u00B0C)': 0,
+                'Clouds (%)': 50,
+                'Humidity (%)': 100
+            },
+            'daily': {
+                'Wind (kn)': [150, 300, 450],
+                'Rain (mm)': [200, 350, 500],
+                'Description': [250, 400, 550]
+            }
+        };
 
-    fDImports.convertTempData = jest.fn().mockImplementation(() => data);
-
-    // it('Calls convertTempData dependancy', () => {
-    //     filterData(headerStatus, data);
-    //     expect(fDImports.convertTempData).not.toHaveBeenCalled();
-
-    //     headerStatus = { ...headerStatus, 'tempUnit': 'Fahrenheit'};
-    //     filterData(headerStatus, data);
-    //     expect(fDImports.convertTempData).toHaveBeenCalled();
-    //     headerStatus = { ...headerStatus, 'tempUnit': 'Celsius'};
-    // });
-
-    it('Returns "filteredData" object with its content based on status of categories in "filteredCategories"', () => {
-        let filteredData = filterData(headerStatus, data);
-        expect(filteredData).toEqual(expectedData);
-
-        headerStatus = { ...headerStatus, 'Rain': true };
-        filteredData = filterData(headerStatus, data);
-        expectedData = { ...expectedData, 'Rain': 100 + 'mm' };
+    });
+    it('Returns an object with all categories and relevant data points included', () => {
+        filteredData = filterData(filteredCategories, data, daysIncluded);
         expect(filteredData).toEqual(expectedData);
     });
-
-    // it('Returns "data", an array of objects whose keys are based on status of keys in "headerStatus"', () => {
-    //     const daysIncluded = [0, 1, 2];
-    //     data = Array.from(daysIncluded, () => data);
-
-    //     let filteredData = filterData(headerStatus, data, daysIncluded);
-    //     expectedData = Array.from(daysIncluded, () => expectedData);
-    //     expect(filteredData).toEqual(expectedData);
-
-    //     headerStatus = {...headerStatus, 'Rain': false };
-    //     filteredData = filterData(headerStatus, data, daysIncluded);
-    //     expectedData = Array.from(daysIncluded, () => { 
-    //         return { 'Temperature': 0 + ' \u00B0C', 'Clouds': 50 + '%' }
-    //     });
-    //     expect(filteredData).toEqual(expectedData);
-    // });
+    it('Returns an object with "false" categories not included', () => {
+        filteredCategories.current.Humidity = false;
+        filteredCategories.current.Clouds = false;
+        filteredCategories.daily.Wind = false;
+        filteredCategories.daily.Rain = false;
+        filteredData = filterData(filteredCategories, data, daysIncluded);
+        expectedData = { 
+            'current': {
+                'Temperature (\u00B0C)': 0
+            },
+            'daily': {
+                'Description': [250, 400, 550]
+            }
+        };
+        expect(filteredData).toEqual(expectedData);
+    });
+    it('Returns an object with "daysIncluded" resulting in only one data point for each category in "daily" table being included', () => {
+        daysIncluded = [0];
+        filteredData = filterData(filteredCategories, data, daysIncluded);
+        expectedData.daily['Wind (kn)'] = [150];
+        expectedData.daily['Rain (mm)'] = [200];
+        expectedData.daily['Description'] = [250];
+        expect(filteredData).toEqual(expectedData);
+    });
 });

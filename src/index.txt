@@ -1,0 +1,35 @@
+Welcome to the 'Weather Project'! This is an application I have designed to showcase some of the skills I have developed in key areas like HTML, CSS, and JavaScript. The application allows a user to search and retrieve a specified location's weather data, as well as interact with how that information is displayed on screen. 
+This project is a continued effort to learn and improve, so any and all feedback you may have would be greatly appreciated!
+
+Linkable Table of Contents:
+
+How to run the application:
+Steps to install
+Required dependencies
+Step by step description of how to get development environment up and running
+
+How to interact with the application:
+Features? - Search, table buttons, tables, optional filters
+
+How to run tests:
+Run unit tests? - What is tested, point to txt files?
+Run integration tests? - What is testetd, point ot txt files?
+
+Technologies used:
+Frameworks? - React, Jest, Cypress
+Pre-processors? - SASS
+Why I used them?
+
+Developing the application:
+What did I learn? - Closure, Syntax shortcuts, React Hooks, ...
+What did I enjoy? - Problem solving, ...
+What did I find difficult? - Testing, planning, design
+
+Future intentions:
+Design?
+Testing?
+Planning?
+
+About me:
+Link to LinkedIn
+Link to CV

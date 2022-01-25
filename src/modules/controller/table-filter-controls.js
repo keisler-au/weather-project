@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 
-import { Context, wholeWeek } from "../view/app";
+import { Context } from "../view/app";
 import { filterData } from "../model/filtering-data";
+import { wholeWeek } from "../view/template-variables";
 
 
 export default function TableFilters({ table, filterOptions }) {
@@ -14,55 +15,64 @@ export default function TableFilters({ table, filterOptions }) {
     setFilteredData
   } = useContext(Context);
 
-  function displayFilters({ target: { checked, parentElement } }) {
-    const isDeselectAll = parentElement.textContent === 'deselect',
-    isCategory = parentElement.parentElement.textContent.includes('Categories'),
-    allInputs = [...parentElement.parentElement.children];
-    allInputs.shift();
-    
-    if (isDeselectAll) {
-      allInputs.forEach(element => {
-        element.firstElementChild.checked = checked;
-        element.className = checked ? '' : 'input-unselected';
-      })
-    } else {
-      parentElement.className = checked ? '' : 'input-unselected';
-    }
-
-    if (isCategory && isDeselectAll) {
-      for (const category in filteredCategories[table]) {
-        filteredCategories[table][category] = checked ? true : false;
+  function selectCategory(tableCategories, labelText, checked) {
+    if (labelText === 'deselectAll') {
+      for (const category in tableCategories) {
+        tableCategories[category] = checked ? true : false;
       };
-    } else if (isCategory) {
-      filteredCategories[table] = {
-        ...filteredCategories[table], 
-        [parentElement.textContent]: checked
-      }
-    } else if (isDeselectAll) {
-      daysIncluded = checked ? wholeWeek : [];
+    } else {
+      tableCategories[labelText] = checked
     }
-    else {
+  
+    return tableCategories
+  };
+  
+  function selectedDays(labelText, allLabels, daysIncluded, checked) {
+    if (labelText !== 'deselectAll') {
       let dayIndex;
-      allInputs.forEach(element => {
-        dayIndex = element.textContent === parentElement.textContent 
-        ? allInputs.indexOf(element) 
+      allLabels.forEach(labelElement => {
+        dayIndex = labelElement.textContent === labelText 
+        ? allLabels.indexOf(labelElement) 
         : dayIndex;
       });
       daysIncluded = daysIncluded.includes(dayIndex) 
-      ? daysIncluded.filter(val => val !== dayIndex) 
-      : [dayIndex, ...daysIncluded].sort();
-    };
+        ? daysIncluded.filter(val => val !== dayIndex) 
+        : [dayIndex, ...daysIncluded].sort();
+    } else {
+      daysIncluded = checked ? wholeWeek : [];
+    }
+  
+    return daysIncluded
+  };
 
-    isCategory 
-    ? setFilteredCategories(pre => ({ ...pre, [table]:filteredCategories[table] }))
-    : setDaysIncluded(daysIncluded);
+  function displayFilters({ target: { checked, parentElement } }) {
+    const label = parentElement,
+    labelText = label.textContent,
+    isCategory = label.parentElement.textContent.includes('Categories'),
+    allLabels = [...label.parentElement.children];
+    allLabels.shift();
 
-    setFilteredData(filterData(filteredCategories, data, daysIncluded));
+    if (labelText === 'deselectAll') {
+      allLabels.forEach(label => {
+        label.className = checked ? '' : 'input-unselected';
+        label.firstElementChild.checked = checked;
+      })
+    } else { label.className = checked ? '' : 'input-unselected'; }
+
+    if (isCategory) {
+      filteredCategories[table] = selectCategory(filteredCategories[table], labelText, checked);
+      setFilteredCategories({ ...filteredCategories, [table]:filteredCategories[table] })
+    } else {
+      daysIncluded = selectedDays(labelText, allLabels, daysIncluded, checked);
+      setDaysIncluded(daysIncluded);
+    }
+    const filteredData = filterData(filteredCategories, data, daysIncluded);
+    setFilteredData(filteredData);
   };
   
-  const selectedInputs = filterOptions.map(filter => (
-    <label key={filter.toString()}>
-      {(isNaN(filter) && filter) || (data.daily[filter].Date || 'Day ' + (filter + 1))}
+  const selectedInputs = filterOptions.map(option => (
+    <label key={option.toString()}>
+      {(isNaN(option) && option) || (data.daily[option].Date || 'Day ' + (option + 1))}
       <input 
         type="checkbox"
         onChange={displayFilters}

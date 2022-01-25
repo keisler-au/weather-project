@@ -2,8 +2,9 @@ import React, { useContext } from "react";
 
 import { Context } from "../view/app";
 import { convertTempData } from "../model/parsing-data";
+import { emptyDataTemplate } from "../view/template-variables";
 import { filterData } from "../model/filtering-data";
-import { emptyDataTemplate } from "../view/app";
+
 
 
 export default function Temperatures() {
@@ -15,37 +16,33 @@ export default function Temperatures() {
     } = useContext(Context);
 
     function changeTempUnit() {  
-        const availableData = JSON.stringify(data) !== JSON.stringify(emptyDataTemplate);
-        if (availableData) {
-            data.current = convertTempData(data.current);
-            data.daily = data.daily.map(dayData => convertTempData(dayData));
-        }
+        const celsius = document.getElementById('celsius'),
+        fahren = document.getElementById('fahrenheit');        
+        celsius.parentElement.className = celsius.checked ? 'input-selected' : 'input-unselected';
+        fahren.parentElement.className = fahren.checked ? 'input-selected' : 'input-unselected';
 
-        setFilteredData(filterData(filteredCategories, data, daysIncluded));
+        const dataOnDisplay = JSON.stringify(data) !== JSON.stringify(emptyDataTemplate);
+        if (dataOnDisplay) {
+            const fahrenheitSelected = fahren.checked;
+            data.current = convertTempData(data.current, fahrenheitSelected);
+            data.daily = data.daily.map(dayData => convertTempData(dayData, fahrenheitSelected));
+        }
+        const filteredData = filterData(filteredCategories, data, daysIncluded);
+        setFilteredData(filteredData);
     };
 
-    const previouslyRendered = document.querySelectorAll('[name=temp]'),
-    
-    tempInputs = ['Celsius', 'Fahrenheit'].map(unit => {
-        const unitIsCelsius = unit === 'Celsius',
-        className = (!previouslyRendered.length && unitIsCelsius)
-            || (previouslyRendered.length && unitIsCelsius && previouslyRendered[0].checked)
-            || (previouslyRendered.length && !unitIsCelsius && previouslyRendered[1].checked)
-            ? 'input-selected' : '',
-
-        tempInput = 
-            <label key={unit} className={className}>
-                {unit}
-                <input 
-                    type="radio" 
-                    name="temp"
-                    onChange={changeTempUnit} 
-                    defaultChecked={unitIsCelsius}
-                />
-            </label>;
-
-        return tempInput
-    });
+    const tempInputs = ['Celsius', 'Fahrenheit'].map(unit => (
+        <label key={unit} >
+            {unit}
+            <input 
+                type="radio" 
+                id={unit.toLocaleLowerCase()}
+                name="temp"
+                onChange={changeTempUnit} 
+                defaultChecked={unit === 'Celsius'}
+            />
+        </label>
+    ));
 
     return tempInputs
 };

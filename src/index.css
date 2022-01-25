@@ -158,13 +158,19 @@ div[class=show-filters] fieldset:first-of-type label {
   line-height: 1.5rem;
   width: 6rem;
   border: solid 1px black;
+}
+div[class=show-filters] fieldset:first-of-type label:first-of-type {
+  background-color: #f7d48a;
+  border-right: none;
+}
+div[class=show-filters] fieldset:first-of-type label:nth-of-type(2) {
   background-color: cornsilk;
 }
 div[class=show-filters] fieldset:first-of-type label[class=input-selected] {
   background-color: #f7d48a;
 }
-div[class=show-filters] fieldset:first-of-type label:first-of-type {
-  border-right: none;
+div[class=show-filters] fieldset:first-of-type label[class=input-unselected] {
+  background-color: cornsilk;
 }
 @media (min-width: 600px) {
   div[class=show-filters] fieldset:first-of-type {

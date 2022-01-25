@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 
-import { Context, emptyDataTemplate } from '../view/app';
+import { Context } from '../view/app';
+import { emptyDataTemplate } from "../view/template-variables";
 import { filterData } from '../model/filtering-data';
 import { getWeatherData } from '../model/api-request';
 import { parseData } from '../model/parsing-data';
 
 
-export default function LocationInput({ location }) {
+export default function LocationFilter({ location }) {
     const {
         setData, 
         daysIncluded, 
@@ -23,18 +24,21 @@ export default function LocationInput({ location }) {
           const weatherData = await getWeatherData(),
           parsedData = weatherData ? parseData(weatherData) : emptyDataTemplate;
           setData(parsedData);
-          setFilteredData(filterData(filteredCategories, parsedData, daysIncluded));
+          const filteredData = filterData(filteredCategories, parsedData, daysIncluded);
+          setFilteredData(filteredData);
         };
+        
         clearTimeout(timer);
         timer = setTimeout(callback, 2000);
       };
     };
-
+    
     const locationInput = 
       <label>
         {location}
         <input 
           type="text" 
+          id={location.toLocaleLowerCase()}
           onChange={textDebounce()} 
           autoFocus={location === 'City'}
         />

@@ -1,5 +1,5 @@
-function addCategoryMetric(category) {
-    const fahrenheit = document.querySelectorAll('[name=temp]')[1]?.checked,
+export function addCategoryMetric(category) {
+    const fahrenheit = document.getElementById('fahrenheit')?.checked,
     metric = category === 'Temperature' && fahrenheit
     ? ' (\u00B0F)'
     : category === 'Temperature'
@@ -15,7 +15,7 @@ function addCategoryMetric(category) {
     return category + metric
 };
 
-function filterData(filteredCategories, data, daysIncluded) {
+export function filterData(filteredCategories, data, daysIncluded) {
     let filteredData = { 
         'current': {}, 
         'daily': {} 
@@ -23,7 +23,7 @@ function filterData(filteredCategories, data, daysIncluded) {
     for (const table in filteredCategories) {
         for (const category in filteredCategories[table]) {
             if (filteredCategories[table][category]) {
-                const metricCategory = exports.addCategoryMetric(category);
+                const metricCategory = addCategoryMetric(category);
                 filteredData[table][metricCategory] = 
                     table === 'current' 
                     ? data.current[category]
@@ -34,13 +34,3 @@ function filterData(filteredCategories, data, daysIncluded) {
 
     return filteredData
 }; 
-
-const exports = { 
-    addCategoryMetric,
-    filterData 
-};
-export default exports;
-export { 
-    addCategoryMetric,
-    filterData 
- };

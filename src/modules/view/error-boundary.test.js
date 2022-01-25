@@ -1,7 +1,6 @@
 import { act } from "react-dom/test-utils";
 import React from "react";
 import { render } from "react-dom";
-import { renderToStaticMarkup } from "react-dom/server";
 
 import { ErrorBoundary } from "./App";
 
@@ -21,15 +20,11 @@ describe('<ErrorBoundary />', () => {
       );
     });
 
-    let expectedHtml = <div>No error</div>;
-    expect(container.innerHTML).toBe(renderToStaticMarkup(expectedHtml));
+    let expectedHtml = '<div>No error</div>';
+    expect(container.innerHTML).toBe(expectedHtml);
   
     errorRender.setState({ 'hasError': true });
-    expectedHtml =       
-    <>
-      <h1>An error has occured</h1>
-      <p>Try refreshing the page</p>
-    </>;
-    expect(container.innerHTML).toBe(renderToStaticMarkup(expectedHtml));
+    expectedHtml = '<h1>An error has occured</h1>';
+    expect(container.innerHTML).toBe(expectedHtml);
   });
 });
