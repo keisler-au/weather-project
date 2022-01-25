@@ -35,7 +35,8 @@ Weather data is displayed in all three tables once a user enters an input into t
 All the elements displayed respond proportionately to the browser window being shortened and widened.
 
 ## <a name="docs"></a>App documentation:
-(link to text file?)
+[Module Documentation](../module-documentation)
+[Test Documentation](../test-documentation)
 
 ## <a name="tools"></a>Technologies used:
 **React** - Contains both the logic and HTML implementation of the application.
@@ -67,4 +68,3 @@ Another feature that could be added to further develop the program is a sorting 
 
 ## <a name="author"></a>About me:
 [Josh Keisler | LinkedIn](https://www.linkedin.com/in/josh-keisler-93b070a1/)
-(link to CV)
