@@ -1,46 +1,107 @@
+# <a name="filters"></a>Interactive Tables
+The two tables that the user can interactive with are the 'Current Weather' and '8 Day Forecast' tables.
+<br> **Current Weather table** <br>
+Displays immediate weather data at the time it was retrieved following the user specifying a location in the 'City' search bar
+<br> **8 Day Forecast table** <br>
+Displays the forecasted weather data for the current day and the proceding week.
+<br> <a name="cF"></a>**Category filters** <br>
+Selecting/deslecting category filters adds/removes rows from the respective tables. <br>
+i.e., Deselecting the 'Temperature' filter from the 'Current Weather' table section removes the 'Temperature' row from the 'Current Weather' table. 
+<br> <a name="df"></a>**Day filters** <br>
+Selecting/deslecting day filters adds/removes columns from the '8 Day Forecast' table only. <br>
+i.e., Deslecting the 'Day 5' filter removes the fith day column from the '8 Day Forecast' table. 
+# Variables
+## <a name="fdD"></a>filteredData
+Object that contains the data set that is used to specify the number of rows and columns as the tables are being generated.
+The user selects what data they want displayed in the tables (via [filters](#filters)), and only the selected points of data (corresponding to the [data](#data) object) ends up in the filteredData object. 
+## <a name="fdC"></a>filteredCategories
+An object that contains attributes representing the categories for each table, with values set to 'true' or 'false' depending on their corresponding 'checked' status. <br>
+Selecting a [category filter](#cF) changes the corresponding attribute in filteredCategories to 'true' (deselecting to 'false'). <br>
+This object is then used for [filterData](#fd), [filteredData](#fdD), to determine what categories will be displayed in each table. 
+## <a name="data"></a>data
+An empty or filled formatted object that contains all of the current and forecasted weather data of the searched location (if any). <br>
+Used as a reference for the dynamically updated [filteredData](#fdD) variable.
+## <a name="dI"></a>daysIncluded
+An array containing integers ranging from zero to seven, or no integers at all. Each integer represents a specific day in the eight day forecast week <br>
+i.e., [3, 5, 7] represents 'Day 4', 'Day 6', 'Day 8', respectively. <br>
+Selecting a [day filter](#df) adds the corresponding day to the array (deselecting removes it). 
+This array is then used for [filterData](#fd), [filteredData](#fdD), to determine what days will be displayed in the '8 Day Forecast' table. 
+## set*()
+The 'useState()' and 'useContext()' React hooks are used to make variables accessible to components up and down the tree. All functions that being with 'set' update the variables state and cause a re-render to occur.
+
+
 # controller/
 ## location-controls.js
 **LocationFilter** <br>
-Outputs two <label/> nodes with a text <input/> node inside each. The text inputs are for the user to specify "City" and "Country" locations that they wish to receive related weather data for. Each input has an "onChange" debounce event handler. After 2000ms has passed from the last typed letter the specified callback function in setTimeout will be called. The callback function retrieves relevant data by calling "getWeatherData()" and formats it by calling "parseData()". If no data is available then a formatted data template with no inclusive data is initialised to the "parsedData" variable. The newly initialised "parsedData" variable is made accessible to other components by using the "useState()" and "useContext()" React hooks, which implemented in the "setTimeout()" callback by calling "setData()". The "parsedData" variable holds a complete dataset of the retrieved/formatted data and is updated by calling "setData()". The "filteredData" variable holds a filtered version of "parsedData" which corresponds to the filters applied to each table. The data stored in "filteredData" is determined by the table columns and rows that have 'filtered' (selected and deselected).
+Returns two 'label' nodes with a text 'input' node in each label. The inputs allow the user to specify what 'City' and 'Country' locations they want weather data for. The inputs have an 'onChange' debounce event handler (textDebounce), where 2000ms after the last typed letter [getWeatherData](#gWD) will be called from inside 'setTimeout()'s callback function. <br> 
+The weather data (if any) retrieved from [getWeatherData](#gWD) is then formatted by calling [parseData](#pD) and stored in the 'parsedData' variable. If no data is available then an empty formatted data template is initialised to parsedData instead. <br>
+The parsedData variable is passed as an argument in [filterData](#fD) to initialise the [filteredData](#fdD) variable.
 ## temperature-controls.js
 **Temperatures** <br>
-The "Temperatures" component outputs two <label><input/></label> radio button that the user interacts with to determine what measurement unit temperature data is displayed in. The "onChange" event handler "changeTempUnit" updates the <label> nodes CSS class names depending on their respective "checked" status. If the "data" variable contains weather data (from a user specifying a searchable location), then "convertTempData()" function is used to convert the current temperature data stored in "data" to the alternative temperature unit (celsius or fahrenheit). This updated dataset goes into intialising "filteredData", a variable used to determine what data is displayed in the user-interactive tables. The state of "filteredData" is updated by "setState()" React hook and "setFilteredData()" function.
+Returns two 'label' nodes with a radio button 'input' node in each label. The inputs allow the user to determine what measuring unit the temperature data is displayed in (celsius or fahrenheit). <br>
+The inputs have an 'onChange' event handler (changeTempUnit), which first updates the label nodes CSS-related class names depending on their 'checked' status. Then if there is data available to be converted (by a user searching for location), the [convertTempData](#cTD) function is called. <br>
+The updated dataset is passed as an argument in [filterData](#fD) to initialise the [filteredData](#fdD) variable.
 ## table-filter-controls.js
 **TableFilters** <br>
-Outputs an array of <label><input/></labe> checkbox controls that enable the user to select and deselect columns and rows in displayed tables. The input label names and the number of inputs are determined by the "filterOptions" prop passed in to the component. The "TableFilters" component is used to generate input controls (filters) correpsonding to tables being displayed. Clicking on a filter updates the "filteredData" variable, which determines the format/layout of the displayed tables. Clicking a filter also changes the className of that inputs parent node (<label>), which is then picked up by CSS to visually represent the changed status of that filter. The "onChange" event handler "displayFilters()" updates the state of "filteredData" via  the "useState()" React hook and "setFilteredData()". The user has the option of deselecting/selecting all corresponding filters, or selecting/deselecting a single filter. The logic applied in "displayFilters()" determines which option the user has chosen and updates the relevant classNames and the "filteredData" variable accordingly. Updating the "filteredData" variable differs if the input control selected is associated as a 'categories shown' filter or 'days shown' filter, and so additional logic is also applied to complete these operations. This logic has been seperated into "selectCategory()" and "selectedDays" unit functions. 
+Returns an array of 'label' nodes with a checkbox 'input' in each label. The 'filterOptions' prop passed in to the component determines how many labels end up in the array, and what each label's text content is. The inputs are the [filters](#filters) that allow the user to select or deselect the columns and rows (categories of data) that they want displayed in the tables. <br>
+The inputs have an 'onChange' event handler (displayFilters), which changes the inputs parent node (label) class name to visually represent the filters changed status and updates the [filteredData](#fdD) variable. <br> 
+A filter may represent either a row or a column of a given table, and the user can choose to select/deselect a single filter, or select/deselect all of a tables filters (rows or columns) at once (see [Interactive Tables](#filters)).
+The logic in displayFilters() determines what option the user has chosen and updates label class names and the [filteredData](#fdD) variable accordingly.
 # model/
-## api-requests.js 
-contains two functions to facilitate data requests to "OpenWeather" API's. 
-<br> **requestApi** <br>
-uses the "fetch" API to make a request to "OpenWeather", using one of two url potential URL's. The first URL is for the "Geocoding API" which is provides location data on the specified 'city' and 'country' parameters, this URL is chosen when the "location" parameter is set to "true". The alternative URL is for "One Call API" which provides weather data for the specified 'longditude' and 'latitude' and coordinates (retrieved from the first API call). A "catch()" method logs any errors caught in the "fetch()" call.
-<br> **getWeatherData**<br>
-The logic in "getWeatherData()" reflects how the "country" parameter in the API request is optional (providing more specificity on the user's desired location) while the "city" parameter is needed to make a valid API request. "getWeatherData()" is called when a user finishes typing a value into the 'city' or 'country' text inputs. If the 'country' input is typed into, and the 'city' input already has an entered value, then an API request is made with both "city" and "country" values as parameters. If 'country' input is typed into and the 'city' input does not already have an entered value, then no API request is made. Alternatively, if 'city' input is typed into, an API request is made regardless of whether 'country' input has a value or not. A "catch" block logs a specific message if the error caught is "TypeError", as this indicates that the response from a request did not contain any data. Alternatively, any other type of error is logged to the console.
+## api-requests.js  
+**requestApi()** <br>
+Accepts three parameters. <br>
+When the third parameter 'location' is set to 'true', the 'Geocoding API' URL string and the user-specified 'city' and 'country' locations are added into the string. <br>
+Returns a promise from the subesequent 'fetch()' that is called with the chosen URL to request location data for the specified parameters. <br>
+When the 'location' parameter defaults to 'false', the 'One Call API' URL string is chosen, and the previously retrieved 'longditude' and 'latitude' location coordinates are added into the string. <br>
+Returns a promise of the fetch() response.
+<br> <a name="gWD"></a>**getWeatherData()** <br>
+getWeatherData() is called when a user finishes typing a value into the 'city', 'country', text inputs. If the user types into the 'city' input, the proceeding chaing of API requests are made regardless of whether the 'country' input has an entered value or not. Alternatively, if the user types into the 'country' input, an API request is only made if the 'city' input already has an entered value, in which case both the 'city' and 'country' values are used as parameters. This logic reflects how the 'country' parameter in the API request is optional  (providing more specificity on the user's desired location) while the 'city' parameter is critical. <br>
+A 'catch' block logs a specific message if the error caught is 'TypeError', as this indicates that the response from a request did not contain any data. Any other type of error is logged to the console. <br>
+Returns a promise on successful fulfillment of the request, otherwise returns null. 
 ## parsing-data.js
-has three functions; "convertTempData", "getDateString", and "parseData". 
-<br> **convertTempData** <br>
-takes in a "data" object, and converts the "Temperature" attribute value from celsius to fahrenheit or vice versa if the 'fahrenheit' radio button is checked. 
-<br> **getDateString** <br>
-takes in a unix timestamp and converts it to 24hr time string representation, or a day and date string representation depending on whether the "time" parameter is true or false.
-<br> **parseData** <br>
-takes in a "data" object, the response from a request to "OpenWeather API". The object gets unpacked for the relevant values inside a 'try block', and are defined to a new formatted object template "parsedData". Unix timestamps are converted to strings ("getDateString"), measurements are rounded, and descriptions are capitalised. The unpacked temperature data is in degrees celsius, so if the 'fahrenheit' radio button is checked, "convertTempData" is used to convert that temperature data to fahrenheit. The parsed data set is then returned. A TypeError occuring due to unpacking the object will be caught by the 'try block', with a specific message is logged to the console. This is likely to occur when the "data" object passed into "parseData" is empty or if does not follow the standardised format. Otherwise all other errors will be logged to the console with a generic error message. If an error is caught, the same formatted object template is returned but as an empty data set, with no assigned values.
+<br> <a name="cTD"></a>**convertTempData()** <br>
+Accepts the 'data' object. The value for the 'Temperature' attribute is converted from degrees celsius to fahrenheit if the 'fahrenheit' radio button is checked (or vice versa). <br>
+Returns the updated 'data' object.
+<br> <a name="gDS"></a>**getDateString()** <br>
+Accepts a unix timestamp and a 'time' parameter. <br>
+Returns a string of the timestamps 24 hour timeframe when the 'time' parameter is set to 'true'. <br>
+Returns a string of the timestamps day and date timeframe when the 'time' parameter defaults to 'false'.
+<br> <a name="pD"></a>**parseData()** <br>
+Accepts a 'data' object (the response from the 'OpenWeather API' request). <br>
+The object gets unpacked for the relevant values inside a 'try block', and are then formatted and defined to a new template object 'parsedData'. <br>
+Some of the values that are formatted include; converting unix timestamps to strings ([getDateString](#gDS)), rounding measurements, and capitalisaing weather text descriptions. <br>
+The unpacked temperature data will be in degrees celsius, so if the 'fahrenheit' radio button is checked, [convertTempData](#cTD) is used to convert the data to fahrenheit. <br>
+A TypeError occuring due to unpacking the object will be caught by the 'try block', with a specific message is logged to the console. This is likely to occur when the 'data' object passed into 'parseData' is empty or if does not follow the standardised format. Otherwise all other errors will be logged to the console with a generic error message. <br>
+Returns a formatted template object with data, or a formatted template object without data if an error is caught.
 ## filtering-data.js
-**filtering-data** <br>
-creates a new "filteredData" object using the 'categories' in "filteredCategories" that are set to 'true', and their corresponding data points in "data". As a user clicks on an input checkbox (filter), this updates the "filteredCategories" object, and the "filteredData" object respectively. A 'for loop' iterates through both 'current' and 'daily' tables of "filteredCategories", with another 'for loop' iterating through each category for that table. If the category is set to 'true', "addCategoryMetric()" adds the unit metrics to the category header (string), which then gets assigned to "filteredData" as a key, with it's value being its corresponding data point in "data". Each category in the 'daily' table may hold several data points for each day that has been selected to display by the user, the data points to include for each category is represented and implemented by the numbers in the "daysIncluded" array.
+<a name="fD"></a>**filter-data()** <br>
+Accepts three parameters, [filteredCategories](#fdC), [data](#data), [daysIncluded](#dI).
+A nested 'for' loop iterates through each category inside the 'current' and 'daily' attributes of [filteredCategories](#fdC). If the category is set to 'true', 'addCategoryMetric()' adds respective unit metrics to the category header (string). <br>
+The 'metricCategory' gets paired with its corresponding data point in [data](#data) and assigned to the [filteredData](#fdData) object. <br>
+Each category in the 'daily' table may be assigned several points of data, representing the days that the user has selected to be displayed in the '8 Day Forecast' table. The data points to include in these categories corresponds to the integers in the [daysIncluded](#dI). <br>
+Returns a [filteredData](#fdD) object.
 # view/
 ## all-table-components.js 
-contains three React components used to generate the display tables; "DayHeaders", "CreateRows", and "Tables". 
-<br> **DayHeaders** <br>
-returns a row of <th> nodes. The number of nodes corresponds to the number of integers in the "daysIncluded" array. The text content for each node corresponds to the "Date" attribute in "data". If there is no data in "Date", then the text content becomes 'Day x', with x being the currently iterated integer in "daysIncluded". This component is called inside "Tables", and is only expected for the table titled "8 Day Forecast" as it is the only table with more than two columns. 
+This module contains the React components that are used to generate the tables.
+<br> <a name="DH"></a>**DayHeaders** <br>
+This component generates the column headers for the '8 Day Forecast' table, with the number of columns being determined by the [daysIncluded](#dI) array.
+The [daysIncluded](#dI) array is iterated through and a 'th' node is generated for each integer. The text content for each 'th' node corresponds to the 'Date' attribute in the [data](#data) object. If there is no data stored in the 'Date' attribute, then the text content becomes 'Day x', with 'x' being the currently iterated integer plus 1. <br>
+Returns a 'thead' node containing the array of 'th' nodes.
 <br> **CreateRows** <br>
-accepts a "tableContent" prop that it maps through, with the iterated information determining what rows get added 'classNames' and how many <td> nodes to generate. If the 'data' inside "tableContent" is an array, then a <td> node is generated for each item in the array, otherwise if 'data' is not an array then a single <td> node is generated. 
+This component is used to generate the rows for each table.
+Accepts a 'tableContent' prop (derived from [filteredData](#fdD)) that gets iterated through, with 'td' node/s being generated and their text content containing that iterations information. If the information is an array of data points, then a 'td' node is generated for each data point. Alternatively, if the information is not in an array, then only a single 'td' node is generated. <br>
+The categories in 'tableContent' also determine which rows are added class names of 'time-row' (i.e., 'Date' and 'Time' categories). <br>
+Returns a 'tbody' node containing the 'th' and 'td' node/s. 
 <br> **Tables** <br>
-is a component that returns an array of three <table> nodes, by using the "DayHeaders" and "CreateRows" components. Each table has an associated input control (checkbox) with an 'onChange' event handler that changes the icon of the <label> node and hides the table when it is checked. 
-The "app.js" module contains the main "App" component that combines the other 'unit' components. "FilterFieldsets" returns an array of <div> nodes and React components, isolating logic that would otherwise by in "App" and thus making it more readable. "ErrorBoundary" is a class that renders a custom error message when an error is caught in one of it's child components. 
-## app.js
+Returns an array of three table nodes, by using the 'DayHeaders' and 'CreateRows' components. <br>
+Each table has an associated 'label' node with an input checkbox inside. Each input has an 'onChange' event handler (tableFilterButtons), that changes the icon inside the 'label' node (via text content) and hides the table when it is checked (via class names). 
+Only the '8 Day Forecast' table is expected to have more than two columns ([DayHeaders](#DH)) and a 'tfoot' node.  
+## app.js 
 **App** <br>
-contains the main "App" component that combines the other 'unit' components and "FilterFieldsets", "ErrorBoundary" components.
-<br> **FilterFieldsets component** <br>
-returns an array of div nodes and React components, isolating logic that would otherwise by in "App" and thus making it more readable.
-<br> **ErrorBoundary component** <br>
-Is a class component that renders a custom error message when an error is caught in one of it's child components. 
+Returns all other components.
+<br> **FilterFieldsets** <br>
+Returns an array of 'div' nodes and React components, improving readability by isolating logic that would otherwise by in 'App'.
+<br> **ErrorBoundary** <br>
+Renders a custom error message when an error is caught in one of it's child components. 
 
