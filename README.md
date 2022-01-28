@@ -3,7 +3,7 @@ The 'Weather Project' is an application I have designed to showcase some of the 
 This project is a continued effort to learn and improve, so any and all feedback you may have would be greatly appreciated!
 
 Table of Contents|
--
+-|
 [Steps to running the application and tests](#run)|
 [How to interact with the application](#interact)|
 [App documentation](#docs)|
@@ -25,7 +25,7 @@ There are two search bars that accept text input for specifying a location for w
 **Optional filters**
 Clicking on the 'Optional filters' tab displays the optional filters that the user can use to interact with the tables below. Each beige coloured box is an interactive button that represents that item being selected, with off-white coloured boxes representing the item being deselected. For example, clicking on a category item in '"Current Weather" Categories' selects or deselects that category from the "Current Weather" table below. Likewise, clicking on a day item in '8 Day Forecast" Days' selects or deselects that day from the "8 Day Forecast" table below. Finally, selecting the small button to the top left of each section selects or deselects all of the items for that section.
 
-![alt](all-selected.png)|![alt](single-deselected.png)|![alt](all-deselected.png)
+![alt](./assets/all-selected.png)|![alt](./assets/single-deselected.png)|![alt](./assets/all-deselected.png)
 -|-|-
 
 **Table Buttons**
@@ -38,8 +38,8 @@ Weather data is displayed in all three tables once a user enters an input into t
 All the elements displayed respond proportionately to the browser window being shortened and widened.
 
 ## <a name="docs"></a>App documentation:
-[Module Documentation](../module-documentation)
-[Test Documentation](../test-documentation)
+* [Module Documentation](./src/modules/module-documentation.md)
+* [Test Documentation](./src/modules/test-documentation.md)
 
 ## <a name="tools"></a>Technologies used:
 **React** - Contains both the logic and HTML implementation of the application.
