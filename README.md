@@ -23,7 +23,10 @@ Table of Contents|
 There are two search bars that accept text input for specifying a location for weather data. For weather data to be retrieved the user is required to input into the 'City' search bar, while input into the 'Country' search bar is optional and allows for greater specificity. Both search bars automatically submit input after a 2 second wait from the last key press and do no require the user to enter or submit their input manually.
 
 **Optional filters**
-Clicking on the 'Optional filters' tab displays the optional filters that the user can use to interact with the tables below. Each beige coloured box ![alt](all-selected.png) is an interactive button that represents that item being selected, with off-white coloured boxes representing the item being deselected. For example, clicking on a category item in '"Current Weather" Categories' selects or deselects that category from the "Current Weather" table below ![alt](single-deselected.png)  Likewise, clicking on a day item in '8 Day Forecast" Days' selects or deselects that day from the "8 Day Forecast" table below. Finally, selecting the small button to the top left of each section selects or deselects all of the items for that section. ![alt](all-deselected)
+Clicking on the 'Optional filters' tab displays the optional filters that the user can use to interact with the tables below. Each beige coloured box is an interactive button that represents that item being selected, with off-white coloured boxes representing the item being deselected. For example, clicking on a category item in '"Current Weather" Categories' selects or deselects that category from the "Current Weather" table below. Likewise, clicking on a day item in '8 Day Forecast" Days' selects or deselects that day from the "8 Day Forecast" table below. Finally, selecting the small button to the top left of each section selects or deselects all of the items for that section.
+
+![alt](all-selected.png)|![alt](single-deselected.png)|![alt](all-deselected.png)
+-|-|-
 
 **Table Buttons**
 Clicking on the tabs above each table hides or displays the table below. 
