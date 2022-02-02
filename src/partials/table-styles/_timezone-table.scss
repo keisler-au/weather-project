@@ -1,8 +1,11 @@
 table:first-of-type {
-    @include table-corners(
-        $h1:$corner, 
-        $h4:$corner, 
-        $d2:$corner, 
-        $d3:$corner
-    );
+    margin: .2rem auto 5rem auto;   
+    position: absolute;
+    top: 6rem;
+    th { 
+        border-radius: $br-corner 0 0 $br-corner;
+    }
+    td {
+        border-radius: 0 $br-corner $br-corner 0;
+    }
 }

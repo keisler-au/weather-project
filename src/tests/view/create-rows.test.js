@@ -1,37 +1,37 @@
-import { act } from "react-dom/test-utils";
-import React from "react";
-import { render } from "react-dom";
+import { act } from 'react-dom/test-utils';
+import React from 'react';
+import { render } from 'react-dom';
 
-import { CreateRows } from "./all-table-components"
+import { CreateRows } from '../../modules/view/table-components';
 
 
-let container = document.createElement("div");
+let container = document.createElement('div');
 document.body.appendChild(container);
 
 const renderTable = data => {
-    act(() => {
-        render(
-            <table><CreateRows tableContent={data} /></table>,
-            container
-        );
-    });
-},
-expectedHtmlTemplate = tdNodes => (
-    '<table><tbody>' +
-        '<tr class="time-row">' +
-            '<th scope="row">Date</th>' +
-            `${tdNodes[0]}` +
-        '</tr>' +
-        '<tr class="time-row">' +
-            '<th scope="row">Time</th>' +
-            `${tdNodes[1]}` +
-        '</tr>' +
-        '<tr class="">' +
-            '<th scope="row">foo</th>' +
-            `${tdNodes[2]}` +
-        '</tr>' +
-    '</tbody></table>'
-);
+        act(() => {
+            render(
+                <table><CreateRows tableContent={data} /></table>,
+                container
+            );
+        });
+    },
+    expectedHtmlTemplate = tdNodes => (
+        '<table><tbody>' +
+            '<tr class="time-row">' +
+                '<th scope="row">Date</th>' +
+                `${tdNodes[0]}` +
+            '</tr>' +
+            '<tr class="time-row">' +
+                '<th scope="row">Time</th>' +
+                `${tdNodes[1]}` +
+            '</tr>' +
+            '<tr class="">' +
+                '<th scope="row">foo</th>' +
+                `${tdNodes[2]}` +
+            '</tr>' +
+        '</tbody></table>'
+    );
 
 describe('<CreateRows />', () => {
     let data, tdNodes;

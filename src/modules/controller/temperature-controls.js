@@ -1,23 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react';
 
-import { Context } from "../view/app";
-import { convertTempData } from "../model/parsing-data";
-import { emptyDataTemplate } from "../view/template-variables";
-import { filterData } from "../model/filtering-data";
+import { Context } from '../view/app';
+import { convertTempData } from '../model/parsing-data';
+import { emptyDataTemplate } from '../view/template-variables';
+import { filterData } from '../model/filtering-data';
 
 
 
 export default function Temperatures() {
-    const {
-        data, 
-        daysIncluded, 
-        filteredCategories, 
-        setFilteredData
-    } = useContext(Context);
-
     function changeTempUnit() {  
         const celsius = document.getElementById('celsius'),
-        fahren = document.getElementById('fahrenheit');        
+            fahren = document.getElementById('fahrenheit');        
         celsius.parentElement.className = celsius.checked ? 'input-selected' : 'input-unselected';
         fahren.parentElement.className = fahren.checked ? 'input-selected' : 'input-unselected';
 
@@ -27,22 +20,27 @@ export default function Temperatures() {
             data.current = convertTempData(data.current, fahrenheitSelected);
             data.daily = data.daily.map(dayData => convertTempData(dayData, fahrenheitSelected));
         }
-        const filteredData = filterData(filteredCategories, data, daysIncluded);
+        const filteredData = filterData(filteredCategories, data, forecastedDays);
         setFilteredData(filteredData);
-    };
+    }
+    const {
+            data, 
+            forecastedDays, 
+            filteredCategories, 
+            setFilteredData
+        } = useContext(Context),
+        tempInputs = ['Celsius', 'Fahrenheit'].map(unit => (
+            <label key={unit} >
+                {unit}
+                <input 
+                    type="radio" 
+                    id={unit.toLocaleLowerCase()}
+                    name="temp"
+                    onChange={changeTempUnit} 
+                    defaultChecked={unit === 'Celsius'}
+                />
+            </label>
+        ));
 
-    const tempInputs = ['Celsius', 'Fahrenheit'].map(unit => (
-        <label key={unit} >
-            {unit}
-            <input 
-                type="radio" 
-                id={unit.toLocaleLowerCase()}
-                name="temp"
-                onChange={changeTempUnit} 
-                defaultChecked={unit === 'Celsius'}
-            />
-        </label>
-    ));
-
-    return tempInputs
-};
+    return tempInputs;
+}

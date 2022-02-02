@@ -1,11 +1,9 @@
-$input-unselected: cornsilk;
-$input-selected: rgb(247, 212, 138);
-$container-color: rgb(253, 84, 62);
-$table-label: rgb(4, 241, 143);
-$table-color: rgb(138, 219, 243);
-$even-table-color: rgb(51, 165, 180);
+$input-selected: rgb(184, 180, 180);
+$input-unselected: transparent;
 
-$corner: .33rem;
-$sharper-corner: .2rem;
-$vertical-space: .5rem;
+$table-caption: rgb(255, 208, 119);
+$table-color: rgb(255, 231, 185);
+$even-table-color: rgb(253, 249, 242);
+
+$br-corner: 3rem;
 

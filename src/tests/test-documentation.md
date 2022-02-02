@@ -1,40 +1,48 @@
 # controller/
-## "location-controls" module
-**"<LocationFilter />" component**
-To unit test the "LocationFilter" component the external opertions of "getWeatherData()", "filterData()" and "parseData()" have been mocked out, with each having their own unit tests. The logic being tested is the ouput and the event handler debounce function. Testing the debounce function involves assessing the "setTimeout()" callback function being called only once, and only after 2000ms from the last typed letter. As such it is expected that after typing 'perth' into the input control the "setData()" function located in the callback would not have intially been called. Once the mocked timers have been run, it is expected that only one call to "setData" would have occured, indicating the "setTimeout()" callback was called after the last typed letter.
-## "temperature-controls" module
-**"<Temperatures />" component**
-The unit test for "Temperatures" tests that the component outputs two <label> nodes, with no class names. The "onChange" event and "convertTempData()" function were mocked. As the event gets triggered, the mocked "convertTempData()" is expected to change the "data" variable used by "filteredData()", and the <label> class names ('input-selected', 'input-unselected') are expected to reflect the checked status of the two radio buttons. 
-## "table-filter-controls" module
-**"<TableFilters />" component**
-The first set of unit tests for "TableFilters" involves passing in the "filterOptions" prop and testing that this results in the expected correpsonding output, with the <label>'s text contents matching the items "filterOptions" and the number of controls matching the length of "filterOptions". The second set of unit tests involves testing the logic in "displayFilters()", with "onChange" filter events matching changes in <label> class names and the relevant changes to "filteredData", such that 'deselect all' or 'deselect single' filters are handled correctly with the corresponding filters being changed to/from 'deselected' (false) to 'selected' (true). If the filter is associated with a 'category' then the relevant update should occur in "setFilteredCategories" and will be tested accordingly, alternatively is the filter is associated with a 'day' then the update should occur in "setDaysIncluded".  
+## location-controls.js
+**LocationFilter** <br>
+Expected output is a 'label' and 'input' node, with the text content and 'id' attribute being assigned the value of the 'location' prop. <br>
+Expected logic implementation after mocked 'onChange' event is for the event handler debounce function to call the 'setTimeout()' callback function only once, 2000ms from after the last typed letter. It is expected that after mock typing 'perth' into the input control the 'setData()' function located in the callback would not have intially been called. Once the mocked timers have been run, it is expected that only one call to setData() would have occured, indicating the setTimeout() callback was called after the last typed letter ('h'). <br>
+The imported functions of 'getWeatherData()', 'filterData()', and 'parseData()' have been mocked out to isolate the logic within 'LocationFilter'. 
+## temperature-controls.js
+**Temperatures** <br>
+Expected output is two 'label' nodes with no assigned class names. 
+Expected logic implementation after mocked 'onChange' event is for the mocked imported 'convertTempData()' function to change the [data](../modules/module-documentation.md/#data) variable that is passed into [filterData](../modules/module-documentation.md/#fD). <br>
+The label class names ('input-selected', 'input-unselected') are also expected to reflect the checked status of the two radio buttons upon mocked event.
+## table-filter-controls.js
+**TableFilters** <br>
+Expected output is for the number of 'label' nodes generated, and their text contents, correspond to the information initialised into the 'filters' prop. <br>
+Expected logic implementation after mocked 'onChange' event is for selected or deselected [filters](../modules/module-documentation.md/#filters) to result in a corresponding change to either the [filteredCategories](../modules/module-documentation.md/#fdC) or [forecastedDays](../modules/module-documentation.md/#fdC) variables, passed into 'setFilteredCategories()' and 'setForecastedDays()' respectively. <br>
+It is also expected that changing a filter's (input's) checked status also changes the parent 'label' nodes class name accordingly. 
 # model/
-## "api-requests" module 
-**"requestApi()" function**
-To test "requestApi()" the "jest-fetch-mock" module was used to mocked the "fetch()" call and reduce test latency. The unit test involves mocking a 'fulfilled' or 'rejected' response and testing that the resolved promise matches the expected output. 
-**"getWeatherData()" function**
-Testing "getWeatherData()" involves testing the conditional logic where "requestApi()" only gets called if 'city' input has a value, otherwise "getWeatherData()" returns null. The catch block is also tested. "requestApi()" was mocked to return undefined or invalid data, the resultant 'TypeError' is expected to be caught and a specific message logged to the console notifying that there was no weather data associated with the specified city. Alternatively, if another error is thrown, a generic error message is expected to be logged, and is tested by mocking "console.error" method. 
-Additionally, to test "getWeatherData()", "requestApi()" has been referenced within the scope of the "exports", "imports" variables so that it can be mocked. When importing "api-requests.js" into the test file, "getWeatherData" is retrieving a reference to the actual "requestApi" in it's closure. This means that when mocking "requestApi" in the test file, "getWeatherData" is not referencing and calling the mocked global version, but rather the actual local version within its scope. To make use of the mock, "requestApi" has been declared to a global object (the default export), which is then referenced inside "getWeatherData". Therefore, mocking the global variables "requestApi" is also mocking the same "requestApi" that "getWeatherData" calls.
-## "parsing-data" module 
-**"convertTempData()" function & "getDateString()" function** 
-The "parsing-data" test file contains unit tests for "getDateString" and "convertTempData", where specifying parameters are expected to return converted values (unix timestamp to string, and celsius to/from fahrenheit, respectively). 
-**"parseData()" function**
-"parseData" is tested with a standardised "data" object object as a parameter, with the expected returned value being a parsed data set, with formatted key:value pairs. The 'try block' is expected to catch and log a specific message for TypeErrors, and is tested by mocking the console.log method and passing an empty object into "parseData" to simulate a non-standardised data set. An empty formatted template is expected to be returned. 
-## "filtering-data" module
-**"filtering-data()" function**
-The output of "filterData()" is expected to be an object that reflects the information provided by the parameters of "filteredCategories" and "daysIncluded". Categories in "filteredCategories" that are set to 'false' are not expected to show up in the returned object, and the number of days specified in "daysIncluded" is expcted to be represented by the number of data points in the array of each 'daily' table category. Each data point included in the return object is retrieved from the "data" variable. Each category key added to the returned object is expected to be ammended to include additional unit metric information as implemented through "addCategoryMetric()". "addCategoryMetric" has it's own unit test as well as being tested through the "filterData" unit tests for to cover all pathways and provide more specificity in test results. 
+## api-requests.js 
+**requestApi()** <br>
+Expected output is either a promise for a mocked fetch fulfilled response, or a specific error message to be logged to console when a rejected fetch response is mocked.
+<br> **getWeatherData()** <br>
+Expected output is either a promise when the 'city' text 'input' node has a value and the mocked [requestApi](../modules/module-documentation.md/#rA) returns a fulfilled response, or 'null'. <br>
+Expected logic implementation after the mocked [requestApi](../modules/module-documentation.md/#rA) throws an error is for 'TypeError' to be caught inside the 'catch' block and a specific message logged to the mocked console, otherwise a generic error message is expected to be logged. <br>
+## parsing-data.js 
+**convertTempData()** <br>
+Expected output is a data set with 'Temperature' attribute values being converted from degrees celsius to fahrenheit, and vice versa.
+<br> **getDateString()** <br>
+Expected output is either a unix timestamp string representation of its time when the second parameter 'time' is set to 'true'. or a string representation of its date when the 'time' parameter defaults to 'false'.
+<br> **parseData()** <br>
+Expected output when a valid data set is passed in as a parameter, is an object with formatted key:value pairs that corresponding to data points in the [data](../modules/module-documentation.md/#data) parameter. Expected output when an invalid data set is passed in as a parameter, is an empty formatted object, and for the 'try' block to catch a 'TypeError' and log a specific message to the mocked console. 
+## filtering-data.js
+**filtering-data()** <br>
+Expected ouput is a formatted object with key:value pairs determined by the passed in parameters; keys align with the categories (attributes) that are set to 'true' in [filteredCategories](../modules/module-documentation.md/#fdC), values correspond with the category data points in [data](../modules/module-documentation.md/#data), and the number of data points for each category in '8 Day Forecast' table represented by the integers in [forecastedDays](../modules/module-documentation.md/#dI). Each object key is expected to be formatted according to the implementation of 'addCategoryMetric()'. addCategoryMetric() has it's own unit test as well to cover all pathways and provide more specificity in test results. 
 # view/
-## "day-headers" module 
-**"<DayHeaders />" component**
-The "day-headers" test file has three tests. 
-For the "DayHeaders" component it is expected that the number of generated <th> nodes corresponds to the number of integers in "daysIncluded". The text content of each <th> node is also expected to correspond to the "daysIncluded" integers, such as 'Day (integer +1)' if the "Date" attribute in the "data.daily" object is empty. Otherwise, the <th> node is expected to display the value stored in the "Date" attribute.
-## "create-rows" module 
-**"<CreateRows />" component**
-"CreateRows" is expected to return either multiple or a single <td> node depending on the amount of data points stored in 'data' in the "tableContent" prop. It is also expected that rows containing a text content of 'Date' or 'Time' are assigned the className of 'time-row'.
-## "tables" module 
-**"<Tables />" component**
-The "Tables" component is expected to render three <label> and <table> nodes with respective child nodes corresponding to "data.location" and the "filteredData" variables. A mocked 'click' event is expected to change the text content of the <label> node and the class name of the <table> node.
-## "app" module
-**"<App />" component"**
-"App" is currently in the process of being integration tested using the 'Cypress' framework. This testing suite would assess whether user interactions and the resulting communication between components are behaving as expected. 
+## day-headers.js 
+**DayHeaders** <br>
+Expected output is a 'thead' node containing an array of 'th' nodes, and for the number of 'th' nodes in the array to correspond to the number of integers in [forecastedDays](../modules/module-documentation.md/#dI). Expected text content for each 'th' node is either the value of the 'Date' attribute in the [data](../modules/module-documentation.md/#data) object, or when the value is undefined for the text content to be 'Day x', with 'x' being a corresponding integer in [forecastedDays](../modules/module-documentation.md/#dI) (plus 1). <br>
+## create-rows.js 
+**CreateRows** <br>
+Expected output is a 'tbody' node, with multiple 'td' child nodes when there are multiple data points in the 'tableContent' prop (initialised into an array), or a single 'td' node when there is only one data point in the 'tableContent' prop. <br>
+Expected logic implementation is for 'tr' nodes with text content of 'Date' or 'Time' to also be assigned a class name of 'time-row'. 
+## tables.js 
+**Tables** <br>
+Expected output is three 'table' nodes, with the data displayed in each table (child node) corresponding to the data initialised in [data.location](../modules/module-documentation.md/#data), [filteredData.current](../modules/module-documentation.md/#fdD), and [filteredData.daily](../modules/module-documentation.md/#fdD).
+## app.js
+**App** <br>
+App is currently in the process of being integration tested using the 'Cypress' framework. This testing suite would assess whether user interactions and the resulting communication between components are behaving as expected. 
 

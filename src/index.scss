@@ -2,8 +2,8 @@
 @import "./partials/variables";
 @import "./partials/form-styles/city-search-bar";
 @import "./partials/form-styles/country-search-bar";
-@import "./partials/form-styles/optional-filter-container";
-@import "./partials/form-styles/table-filter-buttons";
+@import "./partials/form-styles/filter-container";
+// @import "./partials/form-styles/table-filters";
 @import "./partials/form-styles/temperature-units";
 @import "./partials/table-styles/table-container";
 
@@ -16,22 +16,17 @@ body {
     padding: 0;
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: $input-unselected;
 }
-
-input:not([type=text]){ 
-    display: none;  
-}  
 
 form {
     @include flex-setup(column);
-    fieldset {
-        border: none;
-    }
-    label {
-        border-radius: $sharper-corner;
-    }
 }
+label {
+    border: 1px solid black;
+}
+input:not([type=text]){ 
+    display: none;  
+}  
 
 
 
