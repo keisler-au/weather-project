@@ -1,11 +1,11 @@
 ## <a name="filters"></a>Interactive Tables
 The 'Current Weather' and '8 Day Forecast' tables can be interacted with by using selecting/deselecting the labels (input control elements) in the 'Filters' box. The tables display current or forecasted weather data when a user specifies a location in the 'City' search bar.
 
-<br> <a name="cF"></a>**Category Filters** <br>
+<a name="cF"></a>**Category Filters** <br>
 Selecting/deslecting category filters adds or removes rows from the associated table. <br>
 i.e., Deselecting the 'Temperature' filter from the 'Current Weather' table section removes the 'Temperature' row from the 'Current Weather' table.
 
-<br> <a name="df"></a>**Day Filters** <br>
+<a name="df"></a>**Day Filters** <br>
 Selecting/deslecting day filters adds/removes columns from the '8 Day Forecast' table only. <br>
 i.e., Deslecting the 'Day 5' filter removes the fith day column from the '8 Day Forecast' table. 
 
