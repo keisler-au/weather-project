@@ -1,20 +1,15 @@
 # controller/
 ## location-controls.js
 **LocationFilter** <br>
-Expected output is a 'label' and 'input' node, with the text content and 'id' attribute being assigned the value of the 'location' prop. <br>
-Expected logic implementation after mocked 'onChange' event is for the event handler debounce function to call the 'setTimeout()' callback function only once, 2000ms from after the last typed letter. It is expected that after mock typing 'perth' into the input control the 'setData()' function located in the callback would not have intially been called. Once the mocked timers have been run, it is expected that only one call to setData() would have occured, indicating the setTimeout() callback was called after the last typed letter ('h'). <br>
-The imported functions of 'getWeatherData()', 'filterData()', and 'parseData()' have been mocked out to isolate the logic within 'LocationFilter'. 
+Expected output is a 'label' and 'input' node, with the text content and 'id' attribute being assigned the value of the 'location' prop. Expected logic implementation after mocked 'onChange' event is for the event handler debounce function to call the 'setTimeout()' callback function only once, 2000ms from after the last typed letter. It is expected that after mock typing 'perth' into the input control the 'setData()' function located in the callback would not have intially been called. Once the mocked timers have been run, it is expected that only one call to setData() would have occured, indicating the setTimeout() callback was called after the last typed letter ('h'). The imported functions of 'getWeatherData()', 'filterData()', and 'parseData()' have been mocked out to isolate the logic within 'LocationFilter'. 
 
 ## temperature-controls.js
 **Temperatures** <br>
-Expected output is two 'label' nodes with no assigned class names. 
-Expected logic implementation after mocked 'onChange' event is for the mocked imported 'convertTempData()' function to change the [data](../modules/module-documentation.md/#data) variable that is passed into [filterData](../modules/module-documentation.md/#fD). <br>
-The label class names ('input-selected', 'input-unselected') are also expected to reflect the checked status of the two radio buttons upon mocked event.
+Expected output is two 'label' nodes with no assigned class names. Expected logic implementation after mocked 'onChange' event is for the mocked imported 'convertTempData()' function to change the [data](../modules/module-documentation.md/#data) variable that is passed into [filterData](../modules/module-documentation.md/#fD). The label class names ('input-selected', 'input-unselected') are also expected to reflect the checked status of the two radio buttons upon mocked event.
 
 ## table-filter-controls.js
 **TableFilters** <br>
-Expected output is for the number of 'label' nodes generated, and their text contents, correspond to the information initialised into the 'filters' prop. <br>
-Expected logic implementation after mocked 'onChange' event is for selected or deselected [filters](../modules/module-documentation.md/#filters) to result in a corresponding change to either the [filteredCategories](../modules/module-documentation.md/#fdC) or [forecastedDays](../modules/module-documentation.md/#fdC) variables, passed into 'setFilteredCategories()' and 'setForecastedDays()' respectively. Changing a filter's (input's) checked status is also expected to change the parent 'label' nodes class name. 
+Expected output is for the number of 'label' nodes generated, and their text contents, correspond to the information initialised into the 'filters' prop. Expected logic implementation after mocked 'onChange' event is for selected or deselected [filters](../modules/module-documentation.md/#filters) to result in a corresponding change to either the [filteredCategories](../modules/module-documentation.md/#fdC) or [forecastedDays](../modules/module-documentation.md/#fdC) variables, passed into 'setFilteredCategories()' and 'setForecastedDays()' respectively. Changing a filter's (input's) checked status is also expected to change the parent 'label' nodes class name. 
 
 # model/
 ## api-requests.js 
@@ -22,8 +17,7 @@ Expected logic implementation after mocked 'onChange' event is for selected or d
 Expected output is either a promise for a mocked fetch fulfilled response, or a specific error message to be logged to console when a rejected fetch response is mocked.
 
 **getWeatherData()** <br>
-Expected output is either a promise when the 'city' text 'input' node has a value and the mocked [requestApi](../modules/module-documentation.md/#rA) returns a fulfilled response, or 'null'. <br>
-Expected logic implementation after the mocked [requestApi](../modules/module-documentation.md/#rA) throws an error is for 'TypeError' to be caught inside the 'catch' block and a specific message logged to the mocked console, otherwise a generic error message is expected to be logged.
+Expected output is either a promise when the 'city' text 'input' node has a value and the mocked [requestApi](../modules/module-documentation.md/#rA) returns a fulfilled response, or 'null'. Expected logic implementation after the mocked [requestApi](../modules/module-documentation.md/#rA) throws an error is for 'TypeError' to be caught inside the 'catch' block and a specific message logged to the mocked console, otherwise a generic error message is expected to be logged.
 
 ## parsing-data.js 
 **convertTempData()** <br>
@@ -46,8 +40,7 @@ Expected output is a 'thead' node containing an array of 'th' nodes, and for the
 
 ## create-rows.js 
 **CreateRows** <br>
-Expected output is a 'tbody' node, with multiple 'td' child nodes when there are multiple data points in the 'tableContent' prop (initialised into an array), or a single 'td' node when there is only one data point in the 'tableContent' prop. <br>
-Expected logic implementation is for 'tr' nodes with text content of 'Date' or 'Time' to also be assigned a class name of 'time-row'. 
+Expected output is a 'tbody' node, with multiple 'td' child nodes when there are multiple data points in the 'tableContent' prop (initialised into an array), or a single 'td' node when there is only one data point in the 'tableContent' prop. Expected logic implementation is for 'tr' nodes with text content of 'Date' or 'Time' to also be assigned a class name of 'time-row'. 
 
 ## tables.js 
 **Tables** <br>
