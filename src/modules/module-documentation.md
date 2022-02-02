@@ -1,5 +1,5 @@
 ## <a name="filters"></a>Interactive Tables
-The 'Current Weather' and '8 Day Forecast' tables can be interacted with by using selecting/deselecting the labels (input control elements) in the 'Filters' box. The tables display current or forecasted weather data when a user specifies a location in the 'City' search bar.
+The 'Current Weather' and '8 Day Forecast' tables can be interacted with by selecting/deselecting the labels (input control elements) in the 'Filters' box. The tables display current or forecasted weather data when a user specifies a location in the 'City' search bar.
 
 <a name="cF"></a>**Category Filters** <br>
 Selecting/deslecting category filters adds or removes rows from the associated table. <br>
@@ -10,22 +10,22 @@ Selecting/deslecting day filters adds/removes columns from the '8 Day Forecast' 
 i.e., Deslecting the 'Day 5' filter removes the fith day column from the '8 Day Forecast' table. 
 
 ## Common Variables
-**<a name="fdD"></a>**filteredData** <br>
+<a name="fdD"></a>**filteredData** <br>
 This object contains the data set that is used to specify the number of rows and columns to generate for each table.
 The user selects what data they want displayed in the tables (via [filters](#filters)), and only the selected points of data (retrieved from the [data](#data) object) ends up in filteredData. 
 
-**<a name="fdC"></a>**filteredCategories** <br>
+<a name="fdC"></a>**filteredCategories** <br>
 This object contains attributes that represent the filter status of each table-category, categories that have been selected (checked) are set to 'true', and deslected set to 'false'. This information goes into determining what categories are initialised into [filteredData](#fdD).
 
-**<a name="data"></a>**data** <br>
+<a name="data"></a>**data** <br>
 This object contains all of the current and forecasted weather data for the searched location (if any). It is a stable reference for the dynamically updated [filteredData](#fdD).
 
-**<a name="dI"></a>**forecastedDays** <br>
+<a name="dI"></a>**forecastedDays** <br>
 The integers in this array represent each day column in the '8 Day Forecast' table. <br>
 i.e., [3, 5, 7] represents 'Day 4', 'Day 6', 'Day 8', respectively. <br>
 Selecting a [day filter](#df) adds that corresponding integer to the array (deselecting removes it), with this information determining the point of data initialised into [filteredData](#fdD).
 
-**set*()** <br>
+**set\*()** <br>
 The 'useState()' and 'useContext()' React hooks are used to make variables accessible to components up and down the tree. All functions that begin with 'set', update the variables state and cause a re-render to occur.
 
 # /controller/
