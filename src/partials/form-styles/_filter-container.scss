@@ -1,0 +1,51 @@
+.filter-label {
+    position: absolute;
+    top: 2.65rem;
+    margin-left: 20rem;
+    min-width: 5rem;
+    height: 2rem;
+    line-height: 2rem;
+    border-radius: 0 $br-corner $br-corner 0;
+    &:hover {
+        background-color: $input-selected;
+    }
+}
+.hide-filters {
+    display: none;
+}
+.filter-container {
+    @include flex-setup($fw:wrap);
+    margin: 0 3rem 1rem 3rem;   
+    max-width: 70rem;
+    border-radius: 2rem;
+    border: 1px solid grey;   
+    fieldset {
+        border: none;
+        label {
+            border-radius: $br-corner;
+        }
+        &:not(:first-of-type) {
+            margin: .1rem;
+            min-width: 18rem;
+            position: relative; 
+            @include flex-setup($fb:60%, $fw:wrap);
+            @include adjust-flex-basis(40%, 30%);
+            label {
+                @include flex-setup($fb:44%);
+                margin: .1rem;
+                background-color: $input-selected;
+                &[class=input-unselected] {
+                    background-color: $input-unselected;
+                } 
+                &:last-child {
+                    position: absolute;
+                    top: -1.2rem;
+                    left: .9rem;
+                    width: 1rem;
+                    height: 1rem;
+                    color: transparent;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,33 @@
+@mixin flex-setup($fd:initial, $fb:auto, $fw:initial) {
+    display: flex;
+    flex-direction: $fd;
+    flex-basis: $fb;
+    flex-wrap: $fw;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+@mixin adjust-flex-basis($fb1:50%, $fb2:50%) {
+    @media (min-width: 600px) {
+        flex-basis: $fb1;
+        @content;
+    }
+    @media (min-width: 1000px) {
+        flex-basis: $fb2;
+    }
+}
+@mixin text-inputs($w, $h) {
+    input {
+        width: $w;
+        height: $h;
+        border-radius: $br-corner;
+        text-align: center;
+        @content;
+    }
+    input:focus {
+        outline-style: none;
+    }
+}
+
+
+

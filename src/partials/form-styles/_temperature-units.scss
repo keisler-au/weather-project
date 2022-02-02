@@ -1,0 +1,33 @@
+.filter-container fieldset:first-of-type {
+    @include flex-setup($fb:100%);
+    @include adjust-flex-basis {
+        padding-left: 5%;
+        justify-content: start;
+        text-align: start;
+        text-indent: 2rem;
+        label {
+            text-align: center;
+            text-indent: 0;
+        }
+    }
+    label {
+        width: 6rem;
+        height: 1.5rem;
+
+        &:first-of-type {
+            background-color: $input-selected;
+            border-radius: $br-corner 0 0 $br-corner;
+            border-right: none;
+        }
+        &:nth-of-type(2) {
+            background-color: $input-unselected;
+            border-radius: 0 $br-corner $br-corner 0;
+        }
+        &.input-selected {
+            background-color: $input-selected;
+        }
+        &.input-unselected {
+            background-color: $input-unselected;
+        }
+    }
+}

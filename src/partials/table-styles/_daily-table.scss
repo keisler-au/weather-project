@@ -1,0 +1,19 @@
+table:last-of-type {
+    max-width: 60rem;
+    align-self: flex-start;
+    thead th{
+        border-bottom: solid 2px black;
+    }
+    tbody th {
+        min-width: 9rem;
+    }
+    tfoot {
+        position: relative;
+        td {
+            position: absolute;
+            right: 0;
+            width: unset;
+            background-color: transparent;
+        }
+    }
+}

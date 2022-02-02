@@ -1,0 +1,9 @@
+form > label:first-child {
+    margin: 1.5rem 0 4.1rem 0;
+    border: none;
+    @include flex-setup(column);
+    @include text-inputs(25rem, 2rem) {
+        font-size: 1.5rem;
+    }
+
+}

@@ -1,0 +1,48 @@
+@import "./current-table";
+@import "./daily-table";
+@import "./timezone-table";
+
+.table-container {
+    @include flex-setup;
+    @media (max-width: 930px) {
+        flex-direction: column;
+        table:nth-of-type(2) { 
+            margin-top: 0;
+        }
+    }
+}
+
+table {
+    border-spacing: 0;
+    &:first-of-type caption {
+        display: none;
+    }
+    &:nth-of-type(2),
+    &:nth-of-type(3) {
+        margin: 1.3rem .4rem 0 .4rem;
+        height: 18rem;
+        caption {
+            margin: .1rem auto;
+            width: 9rem;
+            height: 2rem;
+            line-height: 2rem;
+            background-color: $table-caption;
+            font-weight: bold;
+        }
+    }
+    tr {
+        & > * {
+            width: 9rem;
+            text-align: center;
+            background-color: $table-color;
+            border-bottom: solid 1px black;
+            &:nth-child(even) {
+                background-color: $even-table-color;
+            }
+        }
+        &:last-child > * {
+            border-bottom: none;
+        }
+    }
+}
+

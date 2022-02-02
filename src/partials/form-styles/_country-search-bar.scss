@@ -1,0 +1,10 @@
+.filter-container > label {
+    border: none;
+    @include flex-setup(column, 100%);
+    @include text-inputs(12.2rem, 1.5rem);
+    @include adjust-flex-basis {
+        padding-right: 10%;
+        align-items: end;
+        text-indent: -12.2rem;
+    }
+}

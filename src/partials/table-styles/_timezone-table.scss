@@ -1,0 +1,11 @@
+table:first-of-type {
+    margin: .2rem auto 5rem auto;   
+    position: absolute;
+    top: 6rem;
+    th { 
+        border-radius: $br-corner 0 0 $br-corner;
+    }
+    td {
+        border-radius: 0 $br-corner $br-corner 0;
+    }
+}

@@ -1,0 +1,39 @@
+@import "./partials/mixins";
+@import "./partials/variables";
+@import "./partials/form-styles/city-search-bar";
+@import "./partials/form-styles/country-search-bar";
+@import "./partials/form-styles/filter-container";
+// @import "./partials/form-styles/table-filters";
+@import "./partials/form-styles/temperature-units";
+@import "./partials/table-styles/table-container";
+
+
+
+*,
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+form {
+    @include flex-setup(column);
+}
+label {
+    border: 1px solid black;
+}
+input:not([type=text]){ 
+    display: none;  
+}  
+
+
+
+
+
+
+
+
+
+

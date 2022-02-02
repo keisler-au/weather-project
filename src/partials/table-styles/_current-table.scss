@@ -1,0 +1,10 @@
+table:nth-of-type(2) {
+    tr[class=time-row] {
+        th,
+        td {
+            font-weight: bold;
+            border-bottom: solid 2px black;
+            min-width: 9rem;
+        }
+    }
+}
