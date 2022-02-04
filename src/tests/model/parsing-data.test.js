@@ -47,7 +47,7 @@ describe('parseData()', () => {
         data = { 
             'timezone': 'timezone',
             'current': singleDaysData,
-            'forecasted': [0, 1, 2].map(() => ({
+            'daily': [0, 1, 2].map(() => ({
                 ...singleDaysData, 
                 'temp': { 'day': 20 } 
             }))

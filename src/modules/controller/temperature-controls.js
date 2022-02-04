@@ -18,7 +18,7 @@ export default function Temperatures() {
         if (dataOnDisplay) {
             const fahrenheitSelected = fahren.checked;
             data.current = convertTempData(data.current, fahrenheitSelected);
-            data.daily = data.daily.map(dayData => convertTempData(dayData, fahrenheitSelected));
+            data.forecasted = data.forecasted.map(dayData => convertTempData(dayData, fahrenheitSelected));
         }
         const filteredData = filterData(filteredCategories, data, forecastedDays);
         setFilteredData(filteredData);
