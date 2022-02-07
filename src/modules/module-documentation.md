@@ -81,7 +81,7 @@ Returns an array of three table nodes, by using the 'DayHeaders' and 'CreateRows
 Returns all other components.
 
 **FilterFieldsets** <br>
-Returns an array of 'div' nodes and React components, improving readability by isolating logic that would otherwise by in 'App'.
+Returns an array of 'fieldset' nodes and React components, improving readability by isolating logic that would otherwise by in 'App'.
 
 **ErrorBoundary** <br>
 Renders a custom error message when an error is caught in one of it's child components. 

@@ -8,16 +8,19 @@ import { parseData } from '../model/parsing-data';
 
 
 export default function LocationFilter({ location }) {
+    async function debounceRetrieveData () {
+        const weatherData = await getWeatherData(),
+            parsedData = weatherData ? parseData(weatherData) : emptyDataTemplate;
+        setData(parsedData);
+        const filteredData = filterData(filteredCategories, parsedData, forecastedDays);
+        setFilteredData(filteredData);
+    }
     function textDebounce() {
         let timer;
         return () => {
-            const callback = async () => {
+            const callback = () => {
                 clearTimeout(timer);
-                const weatherData = await getWeatherData(),
-                    parsedData = weatherData ? parseData(weatherData) : emptyDataTemplate;
-                setData(parsedData);
-                const filteredData = filterData(filteredCategories, parsedData, forecastedDays);
-                setFilteredData(filteredData);
+                debounceRetrieveData();
             };
             clearTimeout(timer);
             timer = setTimeout(callback, 2000);

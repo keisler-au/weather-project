@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
@@ -29,30 +30,24 @@ export const Context = React.createContext();
 
 function FilterFieldsets() {
     const categories = Object.keys(emptyCategories),
-        fieldsetsContent = [
-            [
-                'Temperature Units', 
-                <Temperatures key='1'/>
-            ],
-            [
-                '"Current Weather" Categories',
+        filterInputs = [
+            <fieldset key='1'>
+                <legend>Temperature Units</legend>
+                <Temperatures />
+            </fieldset>,
+            <fieldset key='2'>
+                <legend>"Current Weather" Categories</legend>
                 <TableFilters key='2' table="current" filters={['Date', 'Time', ...categories]} />
-            ],
-            [
-                '"8 Day Forecast" Categories', 
+            </fieldset>,
+            <fieldset key='3'>
+                <legend>"8 Day Forecast" Categories</legend>
                 <TableFilters key='3' table="forecasted" filters={categories} />
-            ],
-            [
-                '"8 Day Forecast" Days', 
+            </fieldset>,
+            <fieldset key='4'>
+                <legend>"8 Day Forecast" Days</legend>
                 <TableFilters key='4' table="forecasted" filters={[...wholeWeek, 'deselectAll']}/>
-            ]
-        ],
-        filterInputs = fieldsetsContent.map(([header, element]) => (
-            <fieldset key={header}>
-                <legend>{header}</legend>
-                {element}
             </fieldset>
-        ));
+        ];
     return filterInputs;
 }
 
