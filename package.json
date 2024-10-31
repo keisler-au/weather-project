@@ -18,7 +18,7 @@
     "test": "jest",
     "eject": "react-scripts eject",
     "transpile": "NODE_ENV=production npx babel --out-dir ../build --relative --copy-files src",
-    "homepage": "https://keisler-au.github.io/"
+    "homepage": "https://keisler-au.github.io/weather-project/"
   },
   "eslintConfig": {
     "extends": [
