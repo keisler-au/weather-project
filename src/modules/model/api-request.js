@@ -1,7 +1,7 @@
 export function requestApi(param1, param2, location=false) {
     const url = location 
-            ? `http://api.openweathermap.org/geo/1.0/direct?q=${param1},${param2}&appid=410fd56e8e5c7d0fd3399015060b1dd0`
-            : `https://api.openweathermap.org/data/2.5/onecall?lat=${param1}&lon=${param2}&exclude=minutely,alerts&units=metric&appid=410fd56e8e5c7d0fd3399015060b1dd0`,
+            ? `http://api.openweathermap.org/geo/1.0/direct?q=${param1},${param2}&appid=invalid_key`
+            : `https://api.openweathermap.org/data/2.5/onecall?lat=${param1}&lon=${param2}&exclude=minutely,alerts&units=metric&appid=invalid_key`,
         request = fetch(url)
             .then(res => res.json())
             .catch(err => console.error('An Error occured in requestApi:', err));
