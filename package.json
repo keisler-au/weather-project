@@ -15,7 +15,8 @@
     "build": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
-    "transpile": "NODE_ENV=production npx babel --out-dir ../build --relative --copy-files src"
+    "transpile": "NODE_ENV=production npx babel --out-dir ../build --relative --copy-files src",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
