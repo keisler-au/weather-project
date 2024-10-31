@@ -11,10 +11,10 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "predeploy": "npm run build",
+    "predeploy": "npm run --openssl-legacy-provider build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts --openssl-legacy-provider start",
-    "build": "react-scripts build",
+    "build": "react-scripts --openssl-legacy-provider build",
     "test": "jest",
     "eject": "react-scripts eject",
     "transpile": "NODE_ENV=production npx babel --out-dir ../build --relative --copy-files src",
